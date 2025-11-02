@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/services/farm_service.dart';
+import 'package:ai_detection/core/theme/app_theme.dart';
+import 'package:ai_detection/core/widgets/modern_button.dart';
+import 'package:ai_detection/features/farm/widgets/location_picker_dialog.dart';
 
 class AddFarmDialog extends StatefulWidget {
   const AddFarmDialog({super.key});
@@ -37,83 +41,188 @@ class _AddFarmDialogState extends State<AddFarmDialog> {
     if (mounted) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Farm added successfully')),
+        SnackBar(
+          content: Text(
+            'Farm added successfully',
+            style: GoogleFonts.inter(),
+          ),
+          backgroundColor: AppTheme.successGreen,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Add New Farm'),
-      content: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Farm Name',
-                  prefixIcon: Icon(Icons.agriculture),
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accentGreen,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.agriculture_rounded,
+                        color: AppTheme.primaryGreen,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        'Add New Farm',
+                        style: GoogleFonts.inter(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.textPrimary,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter farm name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _locationController,
-                decoration: const InputDecoration(
-                  labelText: 'Location',
-                  prefixIcon: Icon(Icons.location_on),
+                const SizedBox(height: 24),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Farm Name',
+                    prefixIcon: const Icon(Icons.agriculture_outlined),
+                    labelStyle: GoogleFonts.inter(),
+                  ),
+                  style: GoogleFonts.inter(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter farm name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter location';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _cropTypeController,
-                decoration: const InputDecoration(
-                  labelText: 'Crop Type',
-                  prefixIcon: Icon(Icons.eco),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _locationController,
+                  decoration: InputDecoration(
+                    labelText: 'Location',
+                    prefixIcon: const Icon(Icons.location_on_outlined),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.map_outlined),
+                      onPressed: () async {
+                        final location = await showDialog<String>(
+                          context: context,
+                          builder: (context) => LocationPickerDialog(
+                            initialLocation: _locationController.text,
+                          ),
+                        );
+                        if (location != null) {
+                          setState(() {
+                            _locationController.text = location;
+                          });
+                        }
+                      },
+                    ),
+                    labelStyle: GoogleFonts.inter(),
+                  ),
+                  style: GoogleFonts.inter(),
+                  readOnly: true,
+                  onTap: () async {
+                    final location = await showDialog<String>(
+                      context: context,
+                      builder: (context) => LocationPickerDialog(
+                        initialLocation: _locationController.text,
+                      ),
+                    );
+                    if (location != null) {
+                      setState(() {
+                        _locationController.text = location;
+                      });
+                    }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select location';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter crop type';
-                  }
-                  return null;
-                },
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _cropTypeController,
+                  decoration: InputDecoration(
+                    labelText: 'Crop Type',
+                    prefixIcon: const Icon(Icons.eco_outlined),
+                    labelStyle: GoogleFonts.inter(),
+                  ),
+                  style: GoogleFonts.inter(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter crop type';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: _isLoading
+                            ? null
+                            : () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: ModernButton(
+                        label: 'Add Farm',
+                        icon: Icons.add_rounded,
+                        onPressed: _isLoading ? null : _handleAdd,
+                        isLoading: _isLoading,
+                      ),
+                    ),
+                  ],
+                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: _isLoading ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _isLoading ? null : _handleAdd,
-          child: _isLoading
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Text('Add'),
-        ),
-      ],
     );
   }
 }
-

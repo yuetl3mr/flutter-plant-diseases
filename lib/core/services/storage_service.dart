@@ -28,5 +28,11 @@ class StorageService {
   Future<void> clear() async {
     await _prefs?.clear();
   }
+
+  Future<void> saveAvatarPath(String userId, String imagePath) async {
+    await _prefs?.setString('avatar_$userId', imagePath);
+  }
+
+  String? getAvatarPath(String userId) => _prefs?.getString('avatar_$userId');
 }
 

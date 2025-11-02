@@ -42,6 +42,7 @@ class FarmService extends ChangeNotifier {
         cropType: 'Rice',
         plants: List.generate(120, (i) => PlantModel(
           id: 'p1_$i',
+          name: 'Rice Plant ${i + 1}',
           imagePath: '',
           status: i < 8 ? PlantStatus.infected : PlantStatus.healthy,
           createdAt: DateTime.now().subtract(Duration(days: i % 30)),
@@ -54,6 +55,7 @@ class FarmService extends ChangeNotifier {
         cropType: 'Strawberry',
         plants: List.generate(75, (i) => PlantModel(
           id: 'p2_$i',
+          name: 'Strawberry Plant ${i + 1}',
           imagePath: '',
           status: i < 3 ? PlantStatus.infected : PlantStatus.healthy,
           createdAt: DateTime.now().subtract(Duration(days: i % 20)),
@@ -83,17 +85,64 @@ class FarmService extends ChangeNotifier {
     }
   }
 
-  Future<void> addPlantToFarm(String farmId, String imagePath, PlantStatus status) async {
+  Future<void> addPlantToFarm(String farmId, String name, String imagePath, PlantStatus status) async {
     final farmIndex = _farms.indexWhere((f) => f.id == farmId);
     if (farmIndex == -1) return;
     final farm = _farms[farmIndex];
     final plant = PlantModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: name,
       imagePath: imagePath,
       status: status,
       createdAt: DateTime.now(),
     );
     final updatedPlants = [...farm.plants, plant];
+    _farms[farmIndex] = FarmModel(
+      id: farm.id,
+      name: farm.name,
+      location: farm.location,
+      cropType: farm.cropType,
+      plants: updatedPlants,
+    );
+    await _saveFarms();
+  }
+
+  Future<void> deletePlant(String farmId, String plantId) async {
+    final farmIndex = _farms.indexWhere((f) => f.id == farmId);
+    if (farmIndex == -1) return;
+    final farm = _farms[farmIndex];
+    final updatedPlants = farm.plants.where((p) => p.id != plantId).toList();
+    _farms[farmIndex] = FarmModel(
+      id: farm.id,
+      name: farm.name,
+      location: farm.location,
+      cropType: farm.cropType,
+      plants: updatedPlants,
+    );
+    await _saveFarms();
+  }
+
+  Future<void> deleteFarm(String farmId) async {
+    _farms.removeWhere((f) => f.id == farmId);
+    await _saveFarms();
+  }
+
+  Future<void> updatePlantStatus(String farmId, String plantId, PlantStatus newStatus) async {
+    final farmIndex = _farms.indexWhere((f) => f.id == farmId);
+    if (farmIndex == -1) return;
+    final farm = _farms[farmIndex];
+    final updatedPlants = farm.plants.map((p) {
+      if (p.id == plantId) {
+        return PlantModel(
+          id: p.id,
+          name: p.name,
+          imagePath: p.imagePath,
+          status: newStatus,
+          createdAt: p.createdAt,
+        );
+      }
+      return p;
+    }).toList();
     _farms[farmIndex] = FarmModel(
       id: farm.id,
       name: farm.name,

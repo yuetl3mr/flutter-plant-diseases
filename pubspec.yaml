@@ -1,5 +1,5 @@
 name: ai_detection
-description: A Flutter app for detecting plant diseases using AI
+description: LeafCare - AI-powered plant disease detection and farm management app
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -16,6 +16,15 @@ dependencies:
   http: ^1.1.2
   fl_chart: ^0.66.0
   intl: ^0.19.0
+  google_fonts: ^6.1.0
+  google_maps_flutter: ^2.5.0
+  geolocator: ^10.1.0
+  image_picker_web: ^3.0.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.6.0
+  geocoding: ^2.1.1
 
 dev_dependencies:
   flutter_test:

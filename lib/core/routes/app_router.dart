@@ -5,6 +5,7 @@ import 'package:ai_detection/features/dashboard/presentation/dashboard_screen.da
 import 'package:ai_detection/features/detection/presentation/detection_screen.dart';
 import 'package:ai_detection/features/farm/presentation/farm_list_screen.dart';
 import 'package:ai_detection/features/farm/presentation/farm_detail_screen.dart';
+import 'package:ai_detection/features/profile/presentation/profile_screen.dart';
 
 class AppRouter {
   static const String login = '/login';
@@ -13,6 +14,7 @@ class AppRouter {
   static const String detection = '/detection';
   static const String farmList = '/farm-list';
   static const String farmDetail = '/farm-detail';
+  static const String profile = '/profile';
 
   static Map<String, WidgetBuilder> get routes => {
         login: (context) => const LoginScreen(),
@@ -20,6 +22,7 @@ class AppRouter {
         dashboard: (context) => const DashboardScreen(),
         detection: (context) => const DetectionScreen(),
         farmList: (context) => const FarmListScreen(),
+        profile: (context) => const ProfileScreen(),
       };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

@@ -40,12 +40,14 @@ enum PlantStatus { healthy, infected }
 
 class PlantModel {
   final String id;
+  final String name;
   final String imagePath;
   final PlantStatus status;
   final DateTime createdAt;
 
   PlantModel({
     required this.id,
+    required this.name,
     required this.imagePath,
     required this.status,
     required this.createdAt,
@@ -53,6 +55,7 @@ class PlantModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'name': name,
         'imagePath': imagePath,
         'status': status.name,
         'createdAt': createdAt.toIso8601String(),
@@ -60,6 +63,7 @@ class PlantModel {
 
   factory PlantModel.fromJson(Map<String, dynamic> json) => PlantModel(
         id: json['id'] as String,
+        name: json['name'] as String? ?? 'Plant ${json['id']}',
         imagePath: json['imagePath'] as String,
         status: PlantStatus.values.firstWhere(
           (e) => e.name == json['status'],
