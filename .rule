@@ -1,0 +1,144 @@
+# ===================================================================
+# 📘 FLUTTER & DART CODING RULES (.rules)
+# Author: Hoàng Kim Thạch
+# Project Type: Flutter App
+# Purpose: Enforce clean code, naming, and structure for Cursor AI
+# ===================================================================
+
+project:
+  name: apparence_kit
+  description: >
+    A Flutter application built with clean architecture (data/domain/presentation).
+    Keep responses short. Provide code first, overview only when asked.
+
+workflow:
+  thinking:
+    - Always think step by step.
+    - Before generating code, summarize in 1–2 lines what you’re about to do.
+    - Provide short checklist of next steps when completing a task.
+  verbosity:
+    - Keep explanation minimal unless explicitly asked.
+    - Prioritize working code and structure over comments.
+  output:
+    - Always format using proper Dart syntax and indentation.
+    - Use triple backticks for code blocks when responding.
+
+architecture:
+  structure:
+    - Follow feature-first pattern:
+      - lib/
+        - core/
+          - constants/
+          - themes/
+          - utils/
+          - services/
+        - features/
+          - <feature_name>/
+            - data/
+            - domain/
+            - presentation/
+            - widgets/
+    - Split large files (>300 lines).
+    - Keep logic out of widgets — use controllers or providers.
+
+dart_guidelines:
+  - Avoid using "dynamic" or "var" without explicit type.
+  - Never use type "any".
+  - Always define model classes with types.
+  - Avoid blank lines inside functions.
+  - One export per file.
+  - Prefer "super" constructor when extending widgets.
+  - Prefer "const" constructors for immutability and performance.
+  - Avoid deeply nested widgets — extract subwidgets.
+  - Avoid "print()" in production; use "debugPrint()" or a logger.
+  - Keep functions short (<50 lines).
+  - Document all public classes/methods with "///" comments.
+
+nomenclature:
+  - Classes: PascalCase → Example: `UserProfileScreen`
+  - Methods/Variables: camelCase → Example: `fetchUserData()`, `isLoading`
+  - Files/Folders: snake_case → Example: `user_profile_screen.dart`
+  - Constants: SCREAMING_SNAKE_CASE → Example: `MAX_USER_LIMIT`
+  - Enums: PascalCase → Example: `UserRole.admin`
+  - Functions must start with a verb → Example: `getData()`, `updateUser()`
+  - Avoid magic numbers — define constants in `/core/constants/`
+
+imports:
+  - Always use package imports, even for internal files.
+  - DO NOT use relative imports (like ../ or ../../).
+  - Follow `always_use_package_imports` rule.
+  - Example:
+      ```dart
+      import 'package:apparence_kit/core/utils/logger.dart';
+      ```
+  - Import order:
+    1. Dart core libraries
+    2. Flutter framework
+    3. Third-party packages
+    4. Project files
+  - Separate import groups with one blank line.
+
+ui_guidelines:
+  - Widgets should be Stateless whenever possible.
+  - Extract reusable components into `/widgets/`.
+  - Use `Theme.of(context)` for styles and colors.
+  - Define styles in `/core/themes/`.
+  - Prefer `SizedBox` over `Container` when only setting size.
+  - Avoid inline colors or styles — use constants or theme.
+
+state_management:
+  - Prefer Riverpod, Provider, or Bloc.
+  - Use StateNotifier or ChangeNotifier for logic.
+  - Do not mutate state directly inside widgets.
+  - Keep UI (View) and logic (Controller/Notifier) separate.
+
+testing:
+  - Each feature should include:
+    - `unit_test.dart` for logic
+    - `widget_test.dart` for UI
+  - Test naming:
+      ```dart
+      test('should return valid data when API succeeds', () { ... });
+      ```
+  - Use mockito or mocktail for mocks.
+  - All test files end with `_test.dart`.
+
+code_style:
+  - Max line length: 100
+  - Use trailing commas in widget trees.
+  - Single quotes preferred over double quotes.
+  - Indentation: 2 spaces.
+  - Sort constructors parameters alphabetically.
+  - Group methods logically: constructors → overrides → private → public.
+
+comments:
+  - Use `///` for documentation comments.
+  - Keep comments concise and relevant.
+  - Avoid redundant comments like “// This is a function”.
+
+assets_rules:
+  - Images in `assets/images/`, JSON in `assets/data/`
+  - Use relative path in pubspec.yaml, but reference via constants.
+  - Example:
+      ```dart
+      const kLogoPath = 'assets/images/logo.png';
+      ```
+
+build_rules:
+  - Always ensure all widgets are wrapped in `MaterialApp` or `CupertinoApp`.
+  - Check for null safety compliance.
+  - Run `flutter analyze` and `dart format` before committing.
+  - Avoid importing unused dependencies.
+
+ai_behavior:
+  - Focus on delivering working code over long explanations.
+  - When generating new feature:
+    - Create data, domain, and presentation layers.
+    - Add imports automatically.
+    - Follow naming and structure rules strictly.
+  - Never use placeholder class names like “MyWidget” or “NewClass”.
+  - If unsure about type → create a clear TODO comment.
+
+---
+
+# ✅ END OF RULE FILE
