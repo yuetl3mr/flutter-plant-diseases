@@ -30,6 +30,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.7
+  integration_test:
+    sdk: flutter
+  shared_preferences_platform_interface: ^2.3.2
 
 flutter:
   uses-material-design: true

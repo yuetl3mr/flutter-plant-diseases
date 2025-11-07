@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Report - AI Detection App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card .number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        .content {
+            padding: 30px;
+        }
+        .test-group {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-group-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-group-header .file-path {
+            font-size: 0.7em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+        .test-function {
+            margin: 20px;
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .test-function-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .test-case {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .test-case:hover {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transform: translateX(5px);
+        }
+        .test-case.passed {
+            border-left: 4px solid #28a745;
+        }
+        .test-case.failed {
+            border-left: 4px solid #dc3545;
+        }
+        .test-case.pending {
+            border-left: 4px solid #ffc107;
+        }
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+        .status-badge.passed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-badge.failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .test-case-name {
+            flex: 1;
+            color: #333;
+            font-size: 1em;
+        }
+        .test-case-duration {
+            color: #666;
+            font-size: 0.85em;
+            padding: 2px 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+            border-top: 2px solid #e0e0e0;
+        }
+        .timestamp {
+            margin-top: 10px;
+            font-size: 0.95em;
+            color: #999;
+        }
+        .summary {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+        .summary h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .summary p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        .warning strong {
+            color: #856404;
+        }
+        .success {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        .success strong {
+            color: #155724;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .modal-header h2 {
+            color: #333;
+            font-size: 1.8em;
+        }
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+        .close:hover {
+            color: #000;
+        }
+        .modal-body {
+            color: #666;
+            line-height: 1.8;
+        }
+        .detail-item {
+            margin: 15px 0;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            color: #666;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Test Case Details</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Test Report</h1>
+            <div class="subtitle">AI Detection App - Flutter Application (From JSON)</div>
+        </div>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number">8</div>
+                <div class="label">Test Groups</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">24</div>
+                <div class="label">Functions</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" style="color: #28a745;">80</div>
+                <div class="label">Passed Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" style="color: #dc3545;">0</div>
+                <div class="label">Failed Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" style="color: #667eea;">100.0%</div>
+                <div class="label">Success Rate</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="summary">
+                <h2>📋 Overview</h2>
+                <p>
+                    This report is generated from <strong>Flutter test JSON results</strong>.
+                    There are a total of <strong>80 test cases</strong> divided into 
+                    <strong>8 test groups</strong> and <strong>24 functions</strong>.
+                </p>
+                <div class="success"><strong>✅ Success:</strong> All 80 tests passed!</div>
+            </div>
+                <div class="test-group">
+        <div class="test-group-header">
+            <span>Auth Service</span>
+            <span class="file-path">test/unit\auth_service_test.dart (12/12 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 AuthService - Đăng nhập (Login) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thành công với email và password hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thành công với email và password hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Email không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Email không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Email rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Email rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Password rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Password rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 AuthService - Đăng ký (Register) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thành công với thông tin hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thành công với thông tin hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thất bại - Email đã tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thất bại - Email đã tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thành công - Username khác nhau nhưng email khác', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thành công - Username khác nhau nhưng email khác</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký với thông tin rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký với thông tin rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 AuthService - Đăng xuất (Logout) (2/2 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Đăng xuất thành công sau khi đăng nhập', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng xuất thành công sau khi đăng nhập</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng xuất khi chưa đăng nhập', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng xuất khi chưa đăng nhập</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 AuthService - Trạng thái xác thực (2/2 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('isAuthenticated trả về false khi chưa đăng nhập', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">isAuthenticated trả về false khi chưa đăng nhập</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('isAuthenticated trả về true sau khi đăng nhập', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">isAuthenticated trả về true sau khi đăng nhập</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Detection Service</span>
+            <span class="file-path">test/unit\detection_service_test.dart (14/14 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 DetectionService - Phát hiện bệnh (detectDisease) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh thành công với đường dẫn ảnh hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh thành công với đường dẫn ảnh hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh với đường dẫn ảnh rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh với đường dẫn ảnh rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Kết quả phát hiện có confidence score hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Kết quả phát hiện có confidence score hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Kết quả phát hiện có tên bệnh hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Kết quả phát hiện có tên bệnh hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 DetectionService - Lưu phát hiện (saveDetection) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Lưu phát hiện thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu phát hiện thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lưu phát hiện với farmId', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu phát hiện với farmId</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lưu nhiều phát hiện', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu nhiều phát hiện</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 DetectionService - Thống kê tuần (getWeeklyStats) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Thống kê tuần trả về 7 ngày', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thống kê tuần trả về 7 ngày</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thống kê tuần có cấu trúc dữ liệu đúng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thống kê tuần có cấu trúc dữ liệu đúng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thống kê tuần với dữ liệu phát hiện', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thống kê tuần với dữ liệu phát hiện</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thống kê tuần trả về healthy = 0', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thống kê tuần trả về healthy = 0</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 DetectionService - Danh sách phát hiện (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Danh sách phát hiện ban đầu rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Danh sách phát hiện ban đầu rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('recentDetections sắp xếp theo ngày mới nhất', 'passed', '0ms', {"delay": "10 milliseconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">recentDetections sắp xếp theo ngày mới nhất</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('totalInfected trả về số lượng phát hiện', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">totalInfected trả về số lượng phát hiện</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Farm Service</span>
+            <span class="file-path">test/unit\farm_service_test.dart (19/19 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Thêm nông trại (addFarm) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Thêm nông trại thành công với thông tin hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm nông trại thành công với thông tin hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thêm nhiều nông trại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm nhiều nông trại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thêm nông trại với tên trùng lặp', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm nông trại với tên trùng lặp</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Lấy nông trại theo ID (getFarmById) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Lấy nông trại thành công với ID hợp lệ', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy nông trại thành công với ID hợp lệ</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy nông trại thất bại với ID không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy nông trại thất bại với ID không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy nông trại với ID rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy nông trại với ID rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Thêm cây vào nông trại (addPlantToFarm) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Thêm cây thành công vào nông trại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm cây thành công vào nông trại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thêm nhiều cây vào nông trại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm nhiều cây vào nông trại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thêm cây thất bại với farmId không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm cây thất bại với farmId không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Xóa cây (deletePlant) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Xóa cây thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa cây thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa cây thất bại với plantId không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa cây thất bại với plantId không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa cây thất bại với farmId không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa cây thất bại với farmId không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Xóa nông trại (deleteFarm) (2/2 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Xóa nông trại thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa nông trại thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa nông trại với ID không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa nông trại với ID không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Cập nhật trạng thái cây (updatePlantStatus) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Cập nhật trạng thái cây thành công từ healthy sang infected', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Cập nhật trạng thái cây thành công từ healthy sang infected</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Cập nhật trạng thái cây thành công từ infected sang healthy', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Cập nhật trạng thái cây thành công từ infected sang healthy</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Cập nhật trạng thái cây thất bại với plantId không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Cập nhật trạng thái cây thất bại với plantId không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Cập nhật trạng thái cây thất bại với farmId không tồn tại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Cập nhật trạng thái cây thất bại với farmId không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 FarmService - Thống kê nông trại (1/1 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Tính toán số lượng cây nhiễm bệnh', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Tính toán số lượng cây nhiễm bệnh</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Storage Service</span>
+            <span class="file-path">test/unit\storage_service_test.dart (14/14 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 StorageService - Lưu và lấy chuỗi (saveString/getString) (5/5 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy chuỗi thành công', 'passed', '0ms', {"key": "test_", "value": "test_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy chuỗi thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy chuỗi rỗng', 'passed', '0ms', {"key": "test_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy chuỗi rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy chuỗi dài', 'passed', '0ms', {"stringLength": 1000, "stringChar": "a", "key": "test_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy chuỗi dài</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy chuỗi không tồn tại trả về null', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy chuỗi không tồn tại trả về null</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Ghi đè giá trị đã tồn tại', 'passed', '0ms', {"key": "test_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Ghi đè giá trị đã tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 StorageService - Lưu và lấy danh sách chuỗi (saveStringList/getStringList) (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy danh sách chuỗi thành công', 'passed', '0ms', {"listItems": 3, "listContent": "'item1',  'item2',  'item3'", "key": "test_list_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy danh sách chuỗi thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy danh sách rỗng', 'passed', '0ms', {"key": "test_list_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy danh sách rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy danh sách không tồn tại trả về null', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy danh sách không tồn tại trả về null</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 StorageService - Xóa (remove) (2/2 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Xóa key thành công', 'passed', '0ms', {"key": "test_", "value": "test_"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa key thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa key không tồn tại không gây lỗi', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa key không tồn tại không gây lỗi</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 StorageService - Xóa tất cả (clear) (1/1 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Xóa tất cả dữ liệu thành công', 'passed', '0ms', {"listItems": 2, "listContent": "'item1',  'item2'"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa tất cả dữ liệu thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+      <div class="test-function">
+        <div class="test-function-name">🔹 StorageService - Avatar path (3/3 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Lưu và lấy đường dẫn avatar thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lưu và lấy đường dẫn avatar thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy đường dẫn avatar không tồn tại trả về null', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy đường dẫn avatar không tồn tại trả về null</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Ghi đè đường dẫn avatar', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Ghi đè đường dẫn avatar</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Detection Flow</span>
+            <span class="file-path">integration_test\detection_flow_test.dart (4/4 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 Integration Test - Luồng phát hiện bệnh (Detection Flow) (4/4 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh thành công - Lưu kết quả', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh thành công - Lưu kết quả</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh - Kiểm tra thống kê tuần', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh - Kiểm tra thống kê tuần</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh - Lưu với farmId', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh - Lưu với farmId</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Phát hiện bệnh - Danh sách phát hiện gần đây', 'passed', '0ms', {"delay": "10 milliseconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Phát hiện bệnh - Danh sách phát hiện gần đây</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Farm Management Flow</span>
+            <span class="file-path">integration_test\farm_management_flow_test.dart (7/7 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 Integration Test - Luồng quản lý nông trại (Farm Management Flow) (7/7 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Thêm nông trại thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm nông trại thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Lấy nông trại theo ID thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Lấy nông trại theo ID thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Thêm cây vào nông trại thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Thêm cây vào nông trại thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa cây khỏi nông trại thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa cây khỏi nông trại thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Cập nhật trạng thái cây thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Cập nhật trạng thái cây thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Xóa nông trại thành công', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Xóa nông trại thành công</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Tính toán thống kê nông trại', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Tính toán thống kê nông trại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Login Flow</span>
+            <span class="file-path">integration_test\login_flow_test.dart (5/5 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 Integration Test - Luồng đăng nhập (Login Flow) (5/5 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thành công - Chuyển đến Dashboard', 'passed', '0ms', {"delay": "2 seconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thành công - Chuyển đến Dashboard</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Email không tồn tại', 'passed', '0ms', {"delay": "2 seconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Email không tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Email rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Email rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng nhập thất bại - Password rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng nhập thất bại - Password rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Chuyển đến màn hình đăng ký', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Chuyển đến màn hình đăng ký</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+      <div class="test-group">
+        <div class="test-group-header">
+            <span>Register Flow</span>
+            <span class="file-path">integration_test\register_flow_test.dart (5/5 passed)</span>
+        </div>
+            <div class="test-function">
+        <div class="test-function-name">🔹 Integration Test - Luồng đăng ký (Register Flow) (5/5 passed)</div>
+            <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thành công - Chuyển đến Dashboard', 'passed', '0ms', {"delay": "2 seconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thành công - Chuyển đến Dashboard</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thất bại - Email đã tồn tại', 'passed', '0ms', {"delay": "2 seconds"})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thất bại - Email đã tồn tại</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thất bại - Username rỗng', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thất bại - Username rỗng</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thất bại - Password không khớp', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thất bại - Password không khớp</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+      <div class="test-case passed" 
+         onclick="showTestDetails('Đăng ký thất bại - Password quá ngắn', 'passed', '0ms', {})">
+        <span class="status-badge passed">PASSED</span>
+        <span class="test-case-name">Đăng ký thất bại - Password quá ngắn</span>
+        <span class="test-case-duration">⏱️ 0ms</span>
+    </div>
+  
+    </div>
+  
+    </div>
+  
+        </div>
+        <div class="footer">
+            <div style="font-size: 1.1em; font-weight: 600; margin-bottom: 10px;">
+                Generated by AI Detection Test Runner (JSON)
+            </div>
+            <div class="timestamp">
+                2025-11-07 08:48:48
+            </div>
+        </div>
+    </div>
+    <script>
+        function showTestDetails(name, status, duration, details) {
+            const modal = document.getElementById('testModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = name;
+            
+            let html = '<div class="detail-item">';
+            html += '<div class="detail-label">📊 Status:</div>';
+            html += '<div class="detail-value">' + status.toUpperCase() + '</div>';
+            html += '</div>';
+            
+            html += '<div class="detail-item">';
+            html += '<div class="detail-label">⏱️ Execution Time:</div>';
+            html += '<div class="detail-value">' + duration + '</div>';
+            html += '</div>';
+            
+            // Display detailed information
+            if (details && Object.keys(details).length > 0) {
+                html += '<div class="detail-item">';
+                html += '<div class="detail-label">📋 Details:</div>';
+                html += '<div style="margin-top: 10px;">';
+                
+                if (details.stringLength) {
+                    html += '<div style="margin: 8px 0;"><strong>String Length:</strong> ' + details.stringLength + ' characters';
+                    if (details.stringChar) {
+                        html += ' (character: "' + details.stringChar + '")';
+                    }
+                    html += '</div>';
+                }
+                
+                if (details.listItems) {
+                    html += '<div style="margin: 8px 0;"><strong>Number of Items:</strong> ' + details.listItems;
+                    if (details.listContent) {
+                        html += '<br><strong>Content:</strong> [' + details.listContent + ']';
+                    }
+                    html += '</div>';
+                }
+                
+                if (details.generatedCount) {
+                    html += '<div style="margin: 8px 0;"><strong>Generated Count:</strong> ' + details.generatedCount + ' items</div>';
+                }
+                
+                if (details.itemCount) {
+                    html += '<div style="margin: 8px 0;"><strong>Item Count:</strong> ' + details.itemCount + ' items</div>';
+                }
+                
+                if (details.delay) {
+                    html += '<div style="margin: 8px 0;"><strong>Delay:</strong> ' + details.delay + '</div>';
+                }
+                
+                // Display other values
+                for (const [key, value] of Object.entries(details)) {
+                    if (!['stringLength', 'stringChar', 'listItems', 'listContent', 'generatedCount', 'itemCount', 'delay'].includes(key)) {
+                        html += '<div style="margin: 8px 0;"><strong>' + key + ':</strong> ' + value + '</div>';
+                    }
+                }
+                
+                html += '</div></div>';
+            } else {
+                html += '<div class="detail-item">';
+                html += '<div style="color: #999; font-style: italic;">No additional details available</div>';
+                html += '</div>';
+            }
+            
+            modalBody.innerHTML = html;
+            modal.style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('testModal').style.display = 'none';
+        }
+        
+        // Đóng modal khi click bên ngoài
+        window.onclick = function(event) {
+            const modal = document.getElementById('testModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Đóng modal bằng phím ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

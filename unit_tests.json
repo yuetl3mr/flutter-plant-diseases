@@ -1,0 +1,220 @@
+Resolving dependencies...
+Downloading packages...
+  _fe_analyzer_shared 91.0.0 (92.0.0 available)
+  _flutterfire_internals 1.3.35 (1.3.64 available)
+  analyzer 8.4.1 (9.0.0 available)
+  characters 1.4.0 (1.4.1 available)
+  cloud_firestore 4.17.5 (6.1.0 available)
+  cloud_firestore_platform_interface 6.2.5 (7.0.4 available)
+  cloud_firestore_web 3.12.5 (5.1.0 available)
+  crypto 3.0.6 (3.0.7 available)
+  firebase_auth 4.16.0 (6.1.2 available)
+  firebase_auth_platform_interface 7.3.0 (8.1.4 available)
+  firebase_auth_web 5.8.13 (6.1.0 available)
+  firebase_core 2.32.0 (4.2.1 available)
+  firebase_core_platform_interface 5.4.2 (6.0.2 available)
+  firebase_core_web 2.24.0 (3.3.0 available)
+  firebase_storage 11.6.5 (13.0.4 available)
+  firebase_storage_platform_interface 5.1.22 (5.2.15 available)
+  firebase_storage_web 3.6.22 (3.11.0 available)
+  fl_chart 0.66.2 (1.1.1 available)
+  flutter_lints 3.0.2 (6.0.0 available)
+  geocoding 2.2.2 (4.0.0 available)
+  geocoding_android 3.3.1 (4.0.1 available)
+  geocoding_ios 2.3.0 (3.1.0 available)
+  geolocator 10.1.1 (14.0.2 available)
+  geolocator_android 4.6.2 (5.0.2 available)
+  geolocator_web 2.2.1 (4.1.3 available)
+  google_maps_flutter 2.13.1 (2.14.0 available)
+  image_picker_web 3.1.1 (4.0.0 available)
+  intl 0.19.0 (0.20.2 available)
+  js 0.6.7 (0.7.2 available)
+  lints 3.0.0 (6.0.0 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  meta 1.16.0 (1.17.0 available)
+  test_api 0.7.6 (0.7.7 available)
+  uuid 4.5.1 (4.5.2 available)
+Got dependencies!
+34 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+{"protocolVersion":"0.1.1","runnerVersion":null,"pid":4492,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":1}
+{"suite":{"id":2,"platform":"vm","path":"C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"suite","time":6}
+{"test":{"id":3,"name":"loading C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":6}
+{"suite":{"id":4,"platform":"vm","path":"C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"suite","time":6}
+{"test":{"id":5,"name":"loading C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":6}
+{"suite":{"id":6,"platform":"vm","path":"C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"suite","time":7}
+{"test":{"id":7,"name":"loading C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart","suiteID":6,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":7}
+{"count":4,"time":8,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2015}
+{"group":{"id":8,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":12,"line":null,"column":null,"url":null},"type":"group","time":2020}
+{"test":{"id":9,"name":"(setUpAll)","suiteID":0,"groupIDs":[8],"metadata":{"skip":false,"skipReason":null},"line":8,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2021}
+{"testID":9,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2133}
+{"group":{"id":10,"suiteID":0,"parentID":8,"name":"AuthService - ÄÄƒng nháº­p (Login)","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":13,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"group","time":2134}
+{"test":{"id":11,"name":"AuthService - ÄÄƒng nháº­p (Login) ÄÄƒng nháº­p thÃ nh cÃ´ng vá»›i email vÃ  password há»£p lá»‡","suiteID":0,"groupIDs":[8,10],"metadata":{"skip":false,"skipReason":null},"line":26,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2134}
+{"testID":11,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2152}
+{"test":{"id":12,"name":"AuthService - ÄÄƒng nháº­p (Login) ÄÄƒng nháº­p tháº¥t báº¡i - Email khÃ´ng tá»“n táº¡i","suiteID":0,"groupIDs":[8,10],"metadata":{"skip":false,"skipReason":null},"line":41,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2153}
+{"testID":12,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2157}
+{"test":{"id":13,"name":"AuthService - ÄÄƒng nháº­p (Login) ÄÄƒng nháº­p tháº¥t báº¡i - Email rá»—ng","suiteID":0,"groupIDs":[8,10],"metadata":{"skip":false,"skipReason":null},"line":51,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2157}
+{"testID":13,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2160}
+{"test":{"id":14,"name":"AuthService - ÄÄƒng nháº­p (Login) ÄÄƒng nháº­p tháº¥t báº¡i - Password rá»—ng","suiteID":0,"groupIDs":[8,10],"metadata":{"skip":false,"skipReason":null},"line":60,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2161}
+{"testID":14,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2165}
+{"group":{"id":15,"suiteID":0,"parentID":8,"name":"AuthService - ÄÄƒng kÃ½ (Register)","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":73,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"group","time":2165}
+{"test":{"id":16,"name":"AuthService - ÄÄƒng kÃ½ (Register) ÄÄƒng kÃ½ thÃ nh cÃ´ng vá»›i thÃ´ng tin há»£p lá»‡","suiteID":0,"groupIDs":[8,15],"metadata":{"skip":false,"skipReason":null},"line":86,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2166}
+{"testID":16,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2169}
+{"test":{"id":17,"name":"AuthService - ÄÄƒng kÃ½ (Register) ÄÄƒng kÃ½ tháº¥t báº¡i - Email Ä‘Ã£ tá»“n táº¡i","suiteID":0,"groupIDs":[8,15],"metadata":{"skip":false,"skipReason":null},"line":99,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2170}
+{"testID":17,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2173}
+{"test":{"id":18,"name":"AuthService - ÄÄƒng kÃ½ (Register) ÄÄƒng kÃ½ thÃ nh cÃ´ng - Username khÃ¡c nhau nhÆ°ng email khÃ¡c","suiteID":0,"groupIDs":[8,15],"metadata":{"skip":false,"skipReason":null},"line":114,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2173}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2177}
+{"test":{"id":19,"name":"AuthService - ÄÄƒng kÃ½ (Register) ÄÄƒng kÃ½ vá»›i thÃ´ng tin rá»—ng","suiteID":0,"groupIDs":[8,15],"metadata":{"skip":false,"skipReason":null},"line":129,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2177}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2181}
+{"group":{"id":20,"suiteID":0,"parentID":8,"name":"AuthService - ÄÄƒng xuáº¥t (Logout)","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":138,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"group","time":2181}
+{"test":{"id":21,"name":"AuthService - ÄÄƒng xuáº¥t (Logout) ÄÄƒng xuáº¥t thÃ nh cÃ´ng sau khi Ä‘Äƒng nháº­p","suiteID":0,"groupIDs":[8,20],"metadata":{"skip":false,"skipReason":null},"line":151,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2182}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2187}
+{"test":{"id":22,"name":"AuthService - ÄÄƒng xuáº¥t (Logout) ÄÄƒng xuáº¥t khi chÆ°a Ä‘Äƒng nháº­p","suiteID":0,"groupIDs":[8,20],"metadata":{"skip":false,"skipReason":null},"line":165,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2188}
+{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2191}
+{"group":{"id":23,"suiteID":0,"parentID":8,"name":"AuthService - Tráº¡ng thÃ¡i xÃ¡c thá»±c","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":178,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"group","time":2191}
+{"test":{"id":24,"name":"AuthService - Tráº¡ng thÃ¡i xÃ¡c thá»±c isAuthenticated tráº£ vá» false khi chÆ°a Ä‘Äƒng nháº­p","suiteID":0,"groupIDs":[8,23],"metadata":{"skip":false,"skipReason":null},"line":191,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2191}
+{"testID":24,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2195}
+{"test":{"id":25,"name":"AuthService - Tráº¡ng thÃ¡i xÃ¡c thá»±c isAuthenticated tráº£ vá» true sau khi Ä‘Äƒng nháº­p","suiteID":0,"groupIDs":[8,23],"metadata":{"skip":false,"skipReason":null},"line":196,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/auth_service_test.dart"},"type":"testStart","time":2195}
+{"testID":25,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2199}
+{"test":{"id":26,"name":"(tearDownAll)","suiteID":0,"groupIDs":[8],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2199}
+{"testID":26,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2202}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2246}
+{"group":{"id":27,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":14,"line":null,"column":null,"url":null},"type":"group","time":2246}
+{"test":{"id":28,"name":"(setUpAll)","suiteID":2,"groupIDs":[27],"metadata":{"skip":false,"skipReason":null},"line":8,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":2246}
+{"testID":28,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2342}
+{"group":{"id":29,"suiteID":2,"parentID":27,"name":"DetectionService - PhÃ¡t hiá»‡n bá»‡nh (detectDisease)","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":13,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"group","time":2342}
+{"test":{"id":30,"name":"DetectionService - PhÃ¡t hiá»‡n bá»‡nh (detectDisease) PhÃ¡t hiá»‡n bá»‡nh thÃ nh cÃ´ng vá»›i Ä‘Æ°á»ng dáº«n áº£nh há»£p lá»‡","suiteID":2,"groupIDs":[27,29],"metadata":{"skip":false,"skipReason":null},"line":26,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":2342}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2469}
+{"group":{"id":31,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":19,"line":null,"column":null,"url":null},"type":"group","time":2470}
+{"test":{"id":32,"name":"(setUpAll)","suiteID":4,"groupIDs":[31],"metadata":{"skip":false,"skipReason":null},"line":8,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2470}
+{"testID":32,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2565}
+{"group":{"id":33,"suiteID":4,"parentID":31,"name":"FarmService - ThÃªm nÃ´ng tráº¡i (addFarm)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":13,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2566}
+{"test":{"id":34,"name":"FarmService - ThÃªm nÃ´ng tráº¡i (addFarm) ThÃªm nÃ´ng tráº¡i thÃ nh cÃ´ng vá»›i thÃ´ng tin há»£p lá»‡","suiteID":4,"groupIDs":[31,33],"metadata":{"skip":false,"skipReason":null},"line":26,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2566}
+{"testID":34,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2597}
+{"test":{"id":35,"name":"FarmService - ThÃªm nÃ´ng tráº¡i (addFarm) ThÃªm nhiá»u nÃ´ng tráº¡i","suiteID":4,"groupIDs":[31,33],"metadata":{"skip":false,"skipReason":null},"line":39,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2597}
+{"testID":35,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2608}
+{"test":{"id":36,"name":"FarmService - ThÃªm nÃ´ng tráº¡i (addFarm) ThÃªm nÃ´ng tráº¡i vá»›i tÃªn trÃ¹ng láº·p","suiteID":4,"groupIDs":[31,33],"metadata":{"skip":false,"skipReason":null},"line":48,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2608}
+{"testID":36,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2619}
+{"group":{"id":37,"suiteID":4,"parentID":31,"name":"FarmService - Láº¥y nÃ´ng tráº¡i theo ID (getFarmById)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":58,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2619}
+{"test":{"id":38,"name":"FarmService - Láº¥y nÃ´ng tráº¡i theo ID (getFarmById) Láº¥y nÃ´ng tráº¡i thÃ nh cÃ´ng vá»›i ID há»£p lá»‡","suiteID":4,"groupIDs":[31,37],"metadata":{"skip":false,"skipReason":null},"line":74,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2619}
+{"testID":7,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2645}
+{"group":{"id":39,"suiteID":6,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":14,"line":null,"column":null,"url":null},"type":"group","time":2646}
+{"test":{"id":40,"name":"(setUpAll)","suiteID":6,"groupIDs":[39],"metadata":{"skip":false,"skipReason":null},"line":6,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2646}
+{"testID":38,"error":"Expected: 'Farm A'\n  Actual: 'Rice Field A'\n   Which: is different.\n          Expected: Farm A\n            Actual: Rice Field ...\n                    ^\n           Differ at offset 0\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 80:7               main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2651}
+{"testID":38,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2652}
+{"test":{"id":41,"name":"FarmService - Láº¥y nÃ´ng tráº¡i theo ID (getFarmById) Láº¥y nÃ´ng tráº¡i tháº¥t báº¡i vá»›i ID khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,37],"metadata":{"skip":false,"skipReason":null},"line":84,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2652}
+{"testID":41,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2659}
+{"test":{"id":42,"name":"FarmService - Láº¥y nÃ´ng tráº¡i theo ID (getFarmById) Láº¥y nÃ´ng tráº¡i vá»›i ID rá»—ng","suiteID":4,"groupIDs":[31,37],"metadata":{"skip":false,"skipReason":null},"line":92,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2659}
+{"testID":42,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2667}
+{"group":{"id":43,"suiteID":4,"parentID":31,"name":"FarmService - ThÃªm cÃ¢y vÃ o nÃ´ng tráº¡i (addPlantToFarm)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":101,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2667}
+{"test":{"id":44,"name":"FarmService - ThÃªm cÃ¢y vÃ o nÃ´ng tráº¡i (addPlantToFarm) ThÃªm cÃ¢y thÃ nh cÃ´ng vÃ o nÃ´ng tráº¡i","suiteID":4,"groupIDs":[31,43],"metadata":{"skip":false,"skipReason":null},"line":117,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2668}
+{"testID":44,"error":"Expected: <1>\n  Actual: <121>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 128:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2681}
+{"testID":44,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2681}
+{"test":{"id":45,"name":"FarmService - ThÃªm cÃ¢y vÃ o nÃ´ng tráº¡i (addPlantToFarm) ThÃªm nhiá»u cÃ¢y vÃ o nÃ´ng tráº¡i","suiteID":4,"groupIDs":[31,43],"metadata":{"skip":false,"skipReason":null},"line":133,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2682}
+{"testID":45,"error":"Expected: <2>\n  Actual: <122>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 150:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2692}
+{"testID":45,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2693}
+{"test":{"id":46,"name":"FarmService - ThÃªm cÃ¢y vÃ o nÃ´ng tráº¡i (addPlantToFarm) ThÃªm cÃ¢y tháº¥t báº¡i vá»›i farmId khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,43],"metadata":{"skip":false,"skipReason":null},"line":153,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2693}
+{"testID":46,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2700}
+{"group":{"id":47,"suiteID":4,"parentID":31,"name":"FarmService - XÃ³a cÃ¢y (deletePlant)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":168,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2701}
+{"test":{"id":48,"name":"FarmService - XÃ³a cÃ¢y (deletePlant) XÃ³a cÃ¢y thÃ nh cÃ´ng","suiteID":4,"groupIDs":[31,47],"metadata":{"skip":false,"skipReason":null},"line":192,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2701}
+{"testID":48,"error":"Expected: <1>\n  Actual: <121>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 194:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2711}
+{"testID":48,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2711}
+{"test":{"id":49,"name":"FarmService - XÃ³a cÃ¢y (deletePlant) XÃ³a cÃ¢y tháº¥t báº¡i vá»›i plantId khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,47],"metadata":{"skip":false,"skipReason":null},"line":204,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2711}
+{"testID":49,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2719}
+{"test":{"id":50,"name":"FarmService - XÃ³a cÃ¢y (deletePlant) XÃ³a cÃ¢y tháº¥t báº¡i vá»›i farmId khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,47],"metadata":{"skip":false,"skipReason":null},"line":216,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2719}
+{"testID":50,"error":"Expected: <1>\n  Actual: <121>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 221:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2731}
+{"testID":50,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2731}
+{"group":{"id":51,"suiteID":4,"parentID":31,"name":"FarmService - XÃ³a nÃ´ng tráº¡i (deleteFarm)","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":225,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2731}
+{"test":{"id":52,"name":"FarmService - XÃ³a nÃ´ng tráº¡i (deleteFarm) XÃ³a nÃ´ng tráº¡i thÃ nh cÃ´ng","suiteID":4,"groupIDs":[31,51],"metadata":{"skip":false,"skipReason":null},"line":241,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2732}
+{"testID":52,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2739}
+{"test":{"id":53,"name":"FarmService - XÃ³a nÃ´ng tráº¡i (deleteFarm) XÃ³a nÃ´ng tráº¡i vá»›i ID khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,51],"metadata":{"skip":false,"skipReason":null},"line":253,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2739}
+{"testID":53,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2745}
+{"group":{"id":54,"suiteID":4,"parentID":31,"name":"FarmService - Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y (updatePlantStatus)","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":265,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2745}
+{"test":{"id":55,"name":"FarmService - Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y (updatePlantStatus) Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y thÃ nh cÃ´ng tá»« healthy sang infected","suiteID":4,"groupIDs":[31,54],"metadata":{"skip":false,"skipReason":null},"line":289,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2745}
+{"testID":40,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2746}
+{"group":{"id":56,"suiteID":6,"parentID":39,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString)","metadata":{"skip":false,"skipReason":null},"testCount":5,"line":11,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"group","time":2746}
+{"test":{"id":57,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString) LÆ°u vÃ  láº¥y chuá»—i thÃ nh cÃ´ng","suiteID":6,"groupIDs":[39,56],"metadata":{"skip":false,"skipReason":null},"line":21,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2746}
+{"testID":55,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2754}
+{"test":{"id":58,"name":"FarmService - Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y (updatePlantStatus) Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y thÃ nh cÃ´ng tá»« infected sang healthy","suiteID":4,"groupIDs":[31,54],"metadata":{"skip":false,"skipReason":null},"line":299,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2754}
+{"testID":57,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2761}
+{"test":{"id":59,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString) LÆ°u vÃ  láº¥y chuá»—i rá»—ng","suiteID":6,"groupIDs":[39,56],"metadata":{"skip":false,"skipReason":null},"line":34,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2762}
+{"testID":58,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2762}
+{"test":{"id":60,"name":"FarmService - Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y (updatePlantStatus) Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y tháº¥t báº¡i vá»›i plantId khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,54],"metadata":{"skip":false,"skipReason":null},"line":312,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2763}
+{"testID":59,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2765}
+{"test":{"id":61,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString) LÆ°u vÃ  láº¥y chuá»—i dÃ i","suiteID":6,"groupIDs":[39,56],"metadata":{"skip":false,"skipReason":null},"line":47,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2765}
+{"testID":61,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2768}
+{"test":{"id":62,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString) Láº¥y chuá»—i khÃ´ng tá»“n táº¡i tráº£ vá» null","suiteID":6,"groupIDs":[39,56],"metadata":{"skip":false,"skipReason":null},"line":60,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2768}
+{"testID":60,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2770}
+{"test":{"id":63,"name":"FarmService - Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y (updatePlantStatus) Cáº­p nháº­t tráº¡ng thÃ¡i cÃ¢y tháº¥t báº¡i vá»›i farmId khÃ´ng tá»“n táº¡i","suiteID":4,"groupIDs":[31,54],"metadata":{"skip":false,"skipReason":null},"line":326,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2770}
+{"testID":62,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2771}
+{"test":{"id":64,"name":"StorageService - LÆ°u vÃ  láº¥y chuá»—i (saveString/getString) Ghi Ä‘Ã¨ giÃ¡ trá»‹ Ä‘Ã£ tá»“n táº¡i","suiteID":6,"groupIDs":[39,56],"metadata":{"skip":false,"skipReason":null},"line":68,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2772}
+{"testID":64,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2775}
+{"group":{"id":65,"suiteID":6,"parentID":39,"name":"StorageService - LÆ°u vÃ  láº¥y danh sÃ¡ch chuá»—i (saveStringList/getStringList)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":84,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"group","time":2775}
+{"test":{"id":66,"name":"StorageService - LÆ°u vÃ  láº¥y danh sÃ¡ch chuá»—i (saveStringList/getStringList) LÆ°u vÃ  láº¥y danh sÃ¡ch chuá»—i thÃ nh cÃ´ng","suiteID":6,"groupIDs":[39,65],"metadata":{"skip":false,"skipReason":null},"line":94,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2775}
+{"testID":63,"error":"Expected: PlantStatus:<PlantStatus.healthy>\n  Actual: PlantStatus:<PlantStatus.infected>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 333:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2780}
+{"testID":63,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2780}
+{"group":{"id":67,"suiteID":4,"parentID":31,"name":"FarmService - Thá»‘ng kÃª nÃ´ng tráº¡i","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":337,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"group","time":2780}
+{"test":{"id":68,"name":"FarmService - Thá»‘ng kÃª nÃ´ng tráº¡i TÃ­nh toÃ¡n sá»‘ lÆ°á»£ng cÃ¢y nhiá»…m bá»‡nh","suiteID":4,"groupIDs":[31,67],"metadata":{"skip":false,"skipReason":null},"line":353,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/farm_service_test.dart"},"type":"testStart","time":2780}
+{"testID":66,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2783}
+{"test":{"id":69,"name":"StorageService - LÆ°u vÃ  láº¥y danh sÃ¡ch chuá»—i (saveStringList/getStringList) LÆ°u vÃ  láº¥y danh sÃ¡ch rá»—ng","suiteID":6,"groupIDs":[39,65],"metadata":{"skip":false,"skipReason":null},"line":107,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2783}
+{"testID":69,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2787}
+{"test":{"id":70,"name":"StorageService - LÆ°u vÃ  láº¥y danh sÃ¡ch chuá»—i (saveStringList/getStringList) Láº¥y danh sÃ¡ch khÃ´ng tá»“n táº¡i tráº£ vá» null","suiteID":6,"groupIDs":[39,65],"metadata":{"skip":false,"skipReason":null},"line":120,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2787}
+{"testID":70,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2791}
+{"group":{"id":71,"suiteID":6,"parentID":39,"name":"StorageService - XÃ³a (remove)","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":129,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"group","time":2791}
+{"test":{"id":72,"name":"StorageService - XÃ³a (remove) XÃ³a key thÃ nh cÃ´ng","suiteID":6,"groupIDs":[39,71],"metadata":{"skip":false,"skipReason":null},"line":139,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2791}
+{"testID":68,"error":"Expected: <1>\n  Actual: <9>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\farm_service_test.dart 370:7              main.<fn>.<fn>\n","isFailure":true,"type":"error","time":2794}
+{"testID":68,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":2794}
+{"test":{"id":73,"name":"(tearDownAll)","suiteID":4,"groupIDs":[31],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2795}
+{"testID":72,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2795}
+{"test":{"id":74,"name":"StorageService - XÃ³a (remove) XÃ³a key khÃ´ng tá»“n táº¡i khÃ´ng gÃ¢y lá»—i","suiteID":6,"groupIDs":[39,71],"metadata":{"skip":false,"skipReason":null},"line":153,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2796}
+{"testID":73,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2798}
+{"testID":74,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2799}
+{"group":{"id":75,"suiteID":6,"parentID":39,"name":"StorageService - XÃ³a táº¥t cáº£ (clear)","metadata":{"skip":false,"skipReason":null},"testCount":1,"line":162,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"group","time":2799}
+{"test":{"id":76,"name":"StorageService - XÃ³a táº¥t cáº£ (clear) XÃ³a táº¥t cáº£ dá»¯ liá»‡u thÃ nh cÃ´ng","suiteID":6,"groupIDs":[39,75],"metadata":{"skip":false,"skipReason":null},"line":172,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2800}
+{"testID":76,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2803}
+{"group":{"id":77,"suiteID":6,"parentID":39,"name":"StorageService - Avatar path","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":188,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"group","time":2803}
+{"test":{"id":78,"name":"StorageService - Avatar path LÆ°u vÃ  láº¥y Ä‘Æ°á»ng dáº«n avatar thÃ nh cÃ´ng","suiteID":6,"groupIDs":[39,77],"metadata":{"skip":false,"skipReason":null},"line":198,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2803}
+{"testID":78,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2806}
+{"test":{"id":79,"name":"StorageService - Avatar path Láº¥y Ä‘Æ°á»ng dáº«n avatar khÃ´ng tá»“n táº¡i tráº£ vá» null","suiteID":6,"groupIDs":[39,77],"metadata":{"skip":false,"skipReason":null},"line":211,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2807}
+{"testID":79,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2809}
+{"test":{"id":80,"name":"StorageService - Avatar path Ghi Ä‘Ã¨ Ä‘Æ°á»ng dáº«n avatar","suiteID":6,"groupIDs":[39,77],"metadata":{"skip":false,"skipReason":null},"line":219,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/storage_service_test.dart"},"type":"testStart","time":2809}
+{"testID":80,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":2812}
+{"test":{"id":81,"name":"(tearDownAll)","suiteID":6,"groupIDs":[39],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":2812}
+{"testID":81,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":2818}
+{"testID":30,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":3360}
+{"test":{"id":82,"name":"DetectionService - PhÃ¡t hiá»‡n bá»‡nh (detectDisease) PhÃ¡t hiá»‡n bá»‡nh vá»›i Ä‘Æ°á»ng dáº«n áº£nh rá»—ng","suiteID":2,"groupIDs":[27,29],"metadata":{"skip":false,"skipReason":null},"line":44,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":3361}
+{"testID":82,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":4365}
+{"test":{"id":83,"name":"DetectionService - PhÃ¡t hiá»‡n bá»‡nh (detectDisease) Káº¿t quáº£ phÃ¡t hiá»‡n cÃ³ confidence score há»£p lá»‡","suiteID":2,"groupIDs":[27,29],"metadata":{"skip":false,"skipReason":null},"line":56,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":4365}
+{"testID":83,"error":"Expected: a value less than or equal to <0.99>\n  Actual: <1.2>\n   Which: is not a value less than or equal to <0.99>\n","stackTrace":"package:matcher                                     expect\npackage:flutter_test/src/widget_tester.dart 473:18  expect\ntest\\unit\\detection_service_test.dart 65:7          main.<fn>.<fn>\n","isFailure":true,"type":"error","time":5387}
+{"testID":83,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":5387}
+{"test":{"id":84,"name":"DetectionService - PhÃ¡t hiá»‡n bá»‡nh (detectDisease) Káº¿t quáº£ phÃ¡t hiá»‡n cÃ³ tÃªn bá»‡nh há»£p lá»‡","suiteID":2,"groupIDs":[27,29],"metadata":{"skip":false,"skipReason":null},"line":68,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":5387}
+{"testID":84,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":6392}
+{"group":{"id":85,"suiteID":2,"parentID":27,"name":"DetectionService - LÆ°u phÃ¡t hiá»‡n (saveDetection)","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":87,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"group","time":6393}
+{"test":{"id":86,"name":"DetectionService - LÆ°u phÃ¡t hiá»‡n (saveDetection) LÆ°u phÃ¡t hiá»‡n thÃ nh cÃ´ng","suiteID":2,"groupIDs":[27,85],"metadata":{"skip":false,"skipReason":null},"line":100,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":6393}
+{"testID":86,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":7415}
+{"test":{"id":87,"name":"DetectionService - LÆ°u phÃ¡t hiá»‡n (saveDetection) LÆ°u phÃ¡t hiá»‡n vá»›i farmId","suiteID":2,"groupIDs":[27,85],"metadata":{"skip":false,"skipReason":null},"line":112,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":7415}
+{"testID":87,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":8420}
+{"test":{"id":88,"name":"DetectionService - LÆ°u phÃ¡t hiá»‡n (saveDetection) LÆ°u nhiá»u phÃ¡t hiá»‡n","suiteID":2,"groupIDs":[27,85],"metadata":{"skip":false,"skipReason":null},"line":125,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":8421}
+{"testID":88,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10431}
+{"group":{"id":89,"suiteID":2,"parentID":27,"name":"DetectionService - Thá»‘ng kÃª tuáº§n (getWeeklyStats)","metadata":{"skip":false,"skipReason":null},"testCount":4,"line":139,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"group","time":10431}
+{"test":{"id":90,"name":"DetectionService - Thá»‘ng kÃª tuáº§n (getWeeklyStats) Thá»‘ng kÃª tuáº§n tráº£ vá» 7 ngÃ y","suiteID":2,"groupIDs":[27,89],"metadata":{"skip":false,"skipReason":null},"line":152,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":10431}
+{"testID":90,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10436}
+{"test":{"id":91,"name":"DetectionService - Thá»‘ng kÃª tuáº§n (getWeeklyStats) Thá»‘ng kÃª tuáº§n cÃ³ cáº¥u trÃºc dá»¯ liá»‡u Ä‘Ãºng","suiteID":2,"groupIDs":[27,89],"metadata":{"skip":false,"skipReason":null},"line":160,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":10436}
+{"testID":91,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":10439}
+{"test":{"id":92,"name":"DetectionService - Thá»‘ng kÃª tuáº§n (getWeeklyStats) Thá»‘ng kÃª tuáº§n vá»›i dá»¯ liá»‡u phÃ¡t hiá»‡n","suiteID":2,"groupIDs":[27,89],"metadata":{"skip":false,"skipReason":null},"line":175,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":10439}
+{"testID":92,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11445}
+{"test":{"id":93,"name":"DetectionService - Thá»‘ng kÃª tuáº§n (getWeeklyStats) Thá»‘ng kÃª tuáº§n tráº£ vá» healthy = 0","suiteID":2,"groupIDs":[27,89],"metadata":{"skip":false,"skipReason":null},"line":188,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":11445}
+{"testID":93,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11449}
+{"group":{"id":94,"suiteID":2,"parentID":27,"name":"DetectionService - Danh sÃ¡ch phÃ¡t hiá»‡n","metadata":{"skip":false,"skipReason":null},"testCount":3,"line":199,"column":3,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"group","time":11449}
+{"test":{"id":95,"name":"DetectionService - Danh sÃ¡ch phÃ¡t hiá»‡n Danh sÃ¡ch phÃ¡t hiá»‡n ban Ä‘áº§u rá»—ng","suiteID":2,"groupIDs":[27,94],"metadata":{"skip":false,"skipReason":null},"line":212,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":11449}
+{"testID":95,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":11453}
+{"test":{"id":96,"name":"DetectionService - Danh sÃ¡ch phÃ¡t hiá»‡n recentDetections sáº¯p xáº¿p theo ngÃ y má»›i nháº¥t","suiteID":2,"groupIDs":[27,94],"metadata":{"skip":false,"skipReason":null},"line":216,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":11453}
+{"testID":96,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":13473}
+{"test":{"id":97,"name":"DetectionService - Danh sÃ¡ch phÃ¡t hiá»‡n totalInfected tráº£ vá» sá»‘ lÆ°á»£ng phÃ¡t hiá»‡n","suiteID":2,"groupIDs":[27,94],"metadata":{"skip":false,"skipReason":null},"line":233,"column":5,"url":"file:///C:/Users/yuetl/Cursor/AI-Detection/test/unit/detection_service_test.dart"},"type":"testStart","time":13473}
+{"testID":97,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":15480}
+{"test":{"id":98,"name":"(tearDownAll)","suiteID":2,"groupIDs":[27],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":15480}
+{"testID":98,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":15483}
+{"success":false,"type":"done","time":15513}

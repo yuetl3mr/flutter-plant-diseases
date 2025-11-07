@@ -1,0 +1,12 @@
+{
+  "name": "ai-detection",
+  "version": "1.0.0",
+  "description": "AI Detection Test Runner",
+  "scripts": {
+    "test": "dart tool/generate_test_report.dart",
+    "test:unit": "flutter test test/unit",
+    "test:widget": "flutter test test/widgets",
+    "test:integration": "flutter test test/integration_test.dart"
+  }
+}
+
