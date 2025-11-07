@@ -1632,10 +1632,6 @@ String _generateHtmlContent(
             html += '<div class="detail-value">' + status.toUpperCase() + '</div>';
             html += '</div>';
             
-            html += '<div class="detail-item">';
-            html += '<div class="detail-label">⏱️ Execution Time:</div>';
-            html += '<div class="detail-value">' + duration + '</div>';
-            html += '</div>';
             
             // Display detailed information
             if (details && Object.keys(details).length > 0) {
@@ -1791,7 +1787,6 @@ String _generateTestCaseHtml(TestCase testCase) {
          onclick="showTestDetails('${testCase.name.replaceAll("'", "\\'")}', '${testCase.status}', '${testCase.duration}', {${detailsJson}})">
         <span class="status-badge ${testCase.status}">${testCase.status.toUpperCase()}</span>
         <span class="test-case-name">${testCase.name}</span>
-        <span class="test-case-duration">⏱️ ${testCase.duration}</span>
     </div>
   ''';
 }
