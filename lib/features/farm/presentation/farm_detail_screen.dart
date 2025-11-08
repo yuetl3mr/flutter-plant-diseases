@@ -10,6 +10,7 @@ import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/features/farm/widgets/add_plant_dialog.dart';
 import 'package:ai_detection/core/widgets/modern_card.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
+import 'package:ai_detection/core/widgets/plant_selection_dialog.dart';
 
 class FarmDetailScreen extends StatelessWidget {
   final String farmId;
@@ -372,6 +373,11 @@ class _PlantOptionsDialog extends StatelessWidget {
   Future<void> _redetectPlant(BuildContext context) async {
     Navigator.pop(context); // Close options dialog first
     
+    // Read services before async operations
+    if (!context.mounted) return;
+    final detectionService = context.read<DetectionService>();
+    final farmService = context.read<FarmService>();
+    
     final imagePicker = ImagePicker();
     final image = await showDialog<XFile>(
       context: context,
@@ -419,21 +425,35 @@ class _PlantOptionsDialog extends StatelessWidget {
 
     if (image == null || !context.mounted) return;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-
     try {
-      final detectionService = context.read<DetectionService>();
-      final detection = await detectionService.detectDisease(image.path);
+      // Show plant selection dialog first
+      final selectedPlant = await showDialog<String>(
+        context: context,
+        builder: (context) => const PlantSelectionDialog(),
+      );
+      
+      if (selectedPlant == null || !context.mounted) {
+        // User cancelled plant selection
+        return;
+      }
+      
+      // Show loading dialog after plant selection
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+      
+      final detection = await detectionService.detectDisease(
+        image.path,
+        plant: selectedPlant,
+      );
       final newStatus = PlantStatus.infected;
       await detectionService.saveDetection(detection);
       
-      final farmService = context.read<FarmService>();
       await farmService.updatePlantStatus(farmId, plant.id, newStatus);
       
       if (context.mounted) {
@@ -454,11 +474,12 @@ class _PlantOptionsDialog extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        Navigator.pop(context); // Close loading
+        // Try to close loading dialog if it's open
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Error during re-detection: $e',
+              e.toString().replaceFirst('Exception: ', ''),
               style: GoogleFonts.inter(),
             ),
             backgroundColor: AppTheme.errorRed,
@@ -466,6 +487,7 @@ class _PlantOptionsDialog extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            duration: const Duration(seconds: 4),
           ),
         );
       }

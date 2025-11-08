@@ -9,6 +9,7 @@ import 'package:ai_detection/core/services/detection_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
 import 'package:ai_detection/core/widgets/modern_card.dart';
+import 'package:ai_detection/core/widgets/plant_selection_dialog.dart';
 
 class AddPlantDialog extends StatefulWidget {
   final String farmId;
@@ -93,13 +94,52 @@ class _AddPlantDialogState extends State<AddPlantDialog> {
     }
     setState(() => _isLoading = true);
     PlantStatus finalStatus = _selectedStatus;
-    if (_useDetection) {
-      final detectionService = context.read<DetectionService>();
-      final detection = await detectionService.detectDisease(_pickedImage!.path);
-      finalStatus = PlantStatus.infected;
-      await detectionService.saveDetection(detection);
-    }
+    
+    // Read services before async operations
     final farmService = context.read<FarmService>();
+    final detectionService = context.read<DetectionService>();
+    
+    if (_useDetection) {
+      try {
+        // Show plant selection dialog
+        final selectedPlant = await showDialog<String>(
+          context: context,
+          builder: (context) => const PlantSelectionDialog(),
+        );
+        
+        if (selectedPlant == null || !mounted) {
+          // User cancelled plant selection
+          setState(() => _isLoading = false);
+          return;
+        }
+        
+        final detection = await detectionService.detectDisease(
+          _pickedImage!.path,
+          plant: selectedPlant,
+        );
+        finalStatus = PlantStatus.infected;
+        await detectionService.saveDetection(detection);
+      } catch (e) {
+        setState(() => _isLoading = false);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                e.toString().replaceFirst('Exception: ', ''),
+                style: GoogleFonts.inter(),
+              ),
+              backgroundColor: AppTheme.errorRed,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
+        return;
+      }
+    }
     await farmService.addPlantToFarm(
       widget.farmId,
       _nameController.text.trim(),

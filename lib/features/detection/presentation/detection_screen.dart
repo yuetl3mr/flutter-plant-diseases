@@ -10,6 +10,7 @@ import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_card.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
 import 'package:ai_detection/core/widgets/bottom_nav_bar.dart';
+import 'package:ai_detection/core/widgets/plant_selection_dialog.dart';
 
 class DetectionScreen extends StatefulWidget {
   const DetectionScreen({super.key});
@@ -70,13 +71,58 @@ class _DetectionScreenState extends State<DetectionScreen> {
 
   Future<void> _detectDisease() async {
     if (_pickedImage == null) return;
-    setState(() => _isLoading = true);
+    
+    // Read service before async gap
     final detectionService = context.read<DetectionService>();
-    final result = await detectionService.detectDisease(_pickedImage!.path);
-    setState(() {
-      _result = result;
-      _isLoading = false;
-    });
+    
+    // Show plant selection dialog
+    final selectedPlant = await showDialog<String>(
+      context: context,
+      builder: (context) => const PlantSelectionDialog(),
+    );
+    
+    if (selectedPlant == null || !mounted) {
+      // User cancelled plant selection
+      return;
+    }
+    
+    setState(() => _isLoading = true);
+    
+    try {
+      final result = await detectionService.detectDisease(
+        _pickedImage!.path,
+        plant: selectedPlant,
+      );
+      
+      if (mounted) {
+        setState(() {
+          _result = result;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.toString().replaceFirst('Exception: ', ''),
+              style: GoogleFonts.inter(),
+            ),
+            backgroundColor: AppTheme.errorRed,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    }
   }
 
   Future<void> _saveResult() async {
