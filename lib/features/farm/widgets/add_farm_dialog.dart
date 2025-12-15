@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/services/farm_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
-import 'package:ai_detection/features/farm/widgets/location_picker_dialog.dart';
 
 class AddFarmDialog extends StatefulWidget {
   const AddFarmDialog({super.key});
@@ -128,42 +127,12 @@ class _AddFarmDialogState extends State<AddFarmDialog> {
                   decoration: InputDecoration(
                     labelText: 'Location',
                     prefixIcon: const Icon(Icons.location_on_outlined),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.map_outlined),
-                      onPressed: () async {
-                        final location = await showDialog<String>(
-                          context: context,
-                          builder: (context) => LocationPickerDialog(
-                            initialLocation: _locationController.text,
-                          ),
-                        );
-                        if (location != null) {
-                          setState(() {
-                            _locationController.text = location;
-                          });
-                        }
-                      },
-                    ),
                     labelStyle: GoogleFonts.inter(),
                   ),
                   style: GoogleFonts.inter(),
-                  readOnly: true,
-                  onTap: () async {
-                    final location = await showDialog<String>(
-                      context: context,
-                      builder: (context) => LocationPickerDialog(
-                        initialLocation: _locationController.text,
-                      ),
-                    );
-                    if (location != null) {
-                      setState(() {
-                        _locationController.text = location;
-                      });
-                    }
-                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please select location';
+                      return 'Please enter location';
                     }
                     return null;
                   },
