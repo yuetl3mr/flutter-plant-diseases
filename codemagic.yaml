@@ -1,0 +1,38 @@
+workflows:
+  ios-debug-workflow:
+    name: iOS Debug Build (Flutter)
+    max_build_duration: 60
+    instance_type: mac_mini_m2  
+    environment:
+      flutter: stable
+      xcode: latest
+      vars:
+        BUNDLE_ID: "com.example.aiDetection"   
+
+    scripts:
+      - name: Flutter doctor
+        script: flutter doctor -v
+
+      - name: Get dependencies
+        script: flutter pub get
+
+      - name: Clean project
+        script: flutter clean
+
+      - name: Build iOS IPA (DEBUG)
+        script: |
+          flutter build ipa \
+            --debug \
+            --export-method development
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/ipa/*.dSYM.zip
+
+    publishing:
+      email:
+        recipients:
+          - kimthach.work@gmail.com   
+        notify:
+          success: true
+          failure: true
