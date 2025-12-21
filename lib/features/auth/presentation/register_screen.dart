@@ -34,6 +34,79 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  // Validation helper methods
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
+    }
+    
+    // Email regex pattern
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    if (!emailRegex.hasMatch(value.trim())) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  String? _validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your username';
+    }
+    
+    final trimmed = value.trim();
+    
+    // Check if starts with number
+    if (RegExp(r'^[0-9]').hasMatch(trimmed)) {
+      return 'Username cannot start with a number';
+    }
+    
+    // Check for spaces (must be written together)
+    if (trimmed.contains(' ')) {
+      return 'Username must be written together (no spaces)';
+    }
+    
+    // Check for Vietnamese accents/diacritics
+    final vietnameseRegex = RegExp(r'[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]');
+    if (vietnameseRegex.hasMatch(trimmed)) {
+      return 'Username cannot contain Vietnamese accents';
+    }
+    
+    // Check for special characters (only allow letters, numbers, underscore)
+    final validUsernameRegex = RegExp(r'^[a-zA-Z0-9_]+$');
+    if (!validUsernameRegex.hasMatch(trimmed)) {
+      return 'Username can only contain letters, numbers, and underscore';
+    }
+    
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your password';
+    }
+    
+    if (value.length <= 6) {
+      return 'Password must be greater than 6 characters';
+    }
+    
+    // Check for uppercase letter
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      return 'Password must contain at least one uppercase letter';
+    }
+    
+    // Check for number
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
+      return 'Password must contain at least one number';
+    }
+    
+    // Check for special character (!@#$%...)
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+      return 'Password must contain at least one special character (!@#\$%...)';
+    }
+    
+    return null;
+  }
+
   Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
@@ -136,14 +209,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labelText: 'Username',
                     prefixIcon: const Icon(Icons.person_outlined),
                     labelStyle: GoogleFonts.inter(),
+                    helperText: 'Letters, numbers, underscore only. No spaces, accents, or starting with number.',
+                    helperMaxLines: 2,
                   ),
                   style: GoogleFonts.inter(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your username';
-                    }
-                    return null;
-                  },
+                  validator: _validateUsername,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -155,15 +225,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   style: GoogleFonts.inter(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
+                  validator: _validateEmail,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -182,18 +244,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     labelStyle: GoogleFonts.inter(),
+                    helperText: 'Must be > 6 characters, include uppercase, number, and special character (!@#\$%^&*...)',
+                    helperMaxLines: 2,
                   ),
                   obscureText: _obscurePassword,
                   style: GoogleFonts.inter(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
+                  validator: _validatePassword,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
