@@ -122,7 +122,7 @@ class DetectionDetailScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          '${(detection.confidence * 100).toStringAsFixed(1)}% Confidence',
+                          '${((detection.confidence > 1 ? detection.confidence : detection.confidence * 100).toStringAsFixed(1))}% Confidence',
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -171,15 +171,18 @@ class DetectionDetailScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    detection.treatment,
-                    style: GoogleFonts.inter(
-                      fontSize: 16,
-                      color: AppTheme.textPrimary,
-                      height: 1.6,
+                  SizedBox(
+                    height: 250,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        detection.treatment,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          color: AppTheme.textPrimary,
+                          height: 1.6,
+                        ),
+                      ),
                     ),
-                    maxLines: null,
-                    softWrap: true,
                   ),
                 ],
               ),

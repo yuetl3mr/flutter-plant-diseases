@@ -81,6 +81,8 @@ class PlantsChart extends StatelessWidget {
                 );
               }).toList(),
               isCurved: true,
+              preventCurveOverShooting: true,
+              preventCurveOvershootingThreshold: 0,
               gradient: LinearGradient(
                 colors: [AppTheme.errorRed, AppTheme.errorRed.withOpacity(0.6)],
               ),

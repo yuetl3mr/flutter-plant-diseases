@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:ai_detection/core/models/detection_model.dart';
 import 'package:ai_detection/core/services/storage_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class DetectionService extends ChangeNotifier {
   final List<DetectionModel> _detections = [];
@@ -91,7 +93,7 @@ class DetectionService extends ChangeNotifier {
                           (responseData['normalized_probability'] as num?)?.toDouble() ?? 0.0;
         
         // Generate treatment recommendation based on disease
-        final treatment = _getTreatmentRecommendation(disease, plantName);
+        final treatment = await _getTreatmentRecommendation(disease, plantName);
         
         final detection = DetectionModel(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -150,48 +152,174 @@ class DetectionService extends ChangeNotifier {
     }
   }
 
-  String _getTreatmentRecommendation(String disease, String plant) {
-    // Map common diseases to treatment recommendations
+  Future<String> _getTreatmentRecommendation(String disease, String plant) async {
+    try {
+      final apiKey = dotenv.env['GEMINI_API_KEY'];
+      
+      if (apiKey == null || apiKey.isEmpty) {
+        throw Exception('Gemini API key không được cấu hình');
+      }
+
+      final model = GenerativeModel(
+        model: 'gemini-2.5-flash',
+        apiKey: apiKey,
+      );
+
+      final prompt = '''Bạn là một chuyên gia nông học và bệnh lý thực vật. 
+Cây: $plant
+Bệnh: $disease
+
+Hãy cung cấp khuyến cáo điều trị cho bệnh này theo định dạng sau:
+
+ĐỊNH DẠNG (không dùng markdown, chỉ dùng ký tự thường):
+
+1. Nguyên nhân: [Nguyên nhân chính gây bệnh - 1 dòng]
+
+2. Các biện pháp xử lý ngay lập tức:
+   - [Biện pháp 1]
+   - [Biện pháp 2]
+   - [Biện pháp 3]
+
+3. Điều trị hóa chất: [Loại thuốc/chất hóa học cụ thể - 1-2 dòng]
+
+4. Phòng ngừa:
+   - [Biện pháp phòng ngừa 1]
+   - [Biện pháp phòng ngừa 2]
+   - [Biện pháp phòng ngừa 3]
+
+5. Thời gian khác phục: [Ước tính thời gian]
+
+YÊU CẦU QUAN TRỌNG:
+- KHÔNG dùng markdown, không dùng **, không dùng #, không dùng [ ]
+- Viết bằng tiếng Việt
+- Ngắn gọn, trực tiếp và dễ hiểu
+- Tập trung vào giải pháp thực tế có thể áp dụng ngay
+- Không vượt quá 200 từ
+- Chỉ cung cấp thông tin chính xác dựa trên kiến thức nông học''';
+
+      final content = [Content.text(prompt)];
+      final response = await model.generateContent(content).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () => throw Exception('Gemini API request timeout. Vui lòng thử lại.'),
+      );
+      
+      return response.text ?? 'Không thể lấy được khuyến cáo. Vui lòng thử lại.';
+    } catch (e) {
+      // Fallback nếu Gemini API thất bại
+      return _getFallbackTreatment(disease, plant);
+    }
+  }
+
+  String _getFallbackTreatment(String disease, String plant) {
+    // Fallback recommendations nếu Gemini API không khả dụng
     final diseaseLower = disease.toLowerCase();
     
     if (diseaseLower.contains('healthy')) {
-      return 'Plant appears healthy. Continue regular care and monitoring.';
+      return '''Tình trạng: Cây khỏe mạnh
+
+Xử lý: Tiếp tục chăm sóc thường xuyên
+- Theo dõi sức khỏe định kỳ
+- Đảm bảo điều kiện sinh trưởng tối ưu
+- Tưới nước đủ và thích hợp''';
     }
     
     if (diseaseLower.contains('blight')) {
-      return 'Remove infected leaves immediately. Apply copper-based fungicide every 7-10 days. Improve air circulation and avoid overhead watering.';
+      return '''Bệnh: Bệnh áo lửa
+
+Nguyên nhân: Do nấm Phytophthora gây ra
+
+Xử lý ngay lập tức:
+- Loại bỏ lá bị nhiễm ngay lập tức
+- Cải thiện thông thoáng khí
+- Tránh tưới nước từ trên
+
+Điều trị: Dùng thuốc trừ nấm chứa đồng, phun mỗi 7-10 ngày
+
+Phòng ngừa:
+- Vệ sinh dụng cụ cắt tỉa
+- Tránh môi trường quá ẩm
+- Cách xa từng cây
+
+Thời gian khác phục: 2-4 tuần với điều trị thích hợp''';
     }
     
     if (diseaseLower.contains('powdery mildew')) {
-      return 'Apply sulfur-based fungicide or neem oil. Prune affected areas. Ensure good air circulation and reduce humidity.';
-    }
-    
-    if (diseaseLower.contains('rust')) {
-      return 'Remove and destroy infected leaves. Apply fungicide containing myclobutanil or propiconazole. Avoid wetting foliage.';
-    }
-    
-    if (diseaseLower.contains('bacterial spot')) {
-      return 'Apply copper-based bactericide. Remove infected plant parts. Avoid overhead watering. Use crop rotation for prevention.';
+      return '''Bệnh: Bệnh phấn trắng
+
+Nguyên nhân: Do nấm Oidium gây ra
+
+Xử lý ngay lập tức:
+- Cắt tỉa các phần bị hại
+- Cải thiện thông thoáng khí
+- Tăng tuần hoàn không khí quanh cây
+
+Điều trị: Sử dụng thuốc diệt nấm lưu huỳnh hoặc dầu neem, phun 2 lần/tuần
+
+Phòng ngừa:
+- Giảm độ ẩm và tăng nắng
+- Cắt tỉa thường xuyên
+- Không tưới lá
+
+Thời gian khác phục: 1-3 tuần''';
     }
     
     if (diseaseLower.contains('leaf spot') || diseaseLower.contains('cercospora')) {
-      return 'Remove infected leaves. Apply fungicide with chlorothalonil or mancozeb. Improve air circulation and reduce leaf wetness.';
+      return '''Bệnh: Bệnh đốm lá
+
+Nguyên nhân: Do nấm Cercospora gây ra
+
+Xử lý ngay lập tức:
+- Loại bỏ lá bị nhiễm ngay lập tức
+- Tránh tưới nước lên lá
+- Dọn sạch lá rơi vừng
+
+Điều trị: Sử dụng thuốc trừ nấm chứa chlorothalonil hoặc mancozeb
+
+Phòng ngừa:
+- Cải thiện thông thoáng khí
+- Giảm độ ẩm xung quanh
+- Tránh tưới nước vào lá
+
+Thời gian khác phục: 2-4 tuần''';
     }
     
-    if (diseaseLower.contains('mosaic virus')) {
-      return 'Remove and destroy infected plants immediately. Control aphids and other vectors. Use virus-free planting material.';
-    }
-    
-    if (diseaseLower.contains('scab')) {
-      return 'Apply fungicide with captan or mancozeb. Prune to improve air circulation. Remove fallen leaves in autumn.';
-    }
-    
-    if (diseaseLower.contains('rot') || diseaseLower.contains('black rot')) {
-      return 'Remove infected parts immediately. Apply fungicide containing tebuconazole. Improve drainage and avoid overwatering.';
+    if (diseaseLower.contains('rust')) {
+      return '''Bệnh: Bệnh gỉ
+
+Nguyên nhân: Do nấm Rust gây ra
+
+Xử lý ngay lập tức:
+- Loại bỏ lá bị hư
+- Tránh làm ướt lá khi tưới
+- Cải thiện thông thoáng khí
+
+Điều trị: Dùng thuốc chứa myclobutanil hoặc propiconazole
+
+Phòng ngừa:
+- Giảm độ ẩm
+- Cắt tỉa đều đặn
+- Tránh tưới từ trên
+
+Thời gian khác phục: 2-3 tuần''';
     }
     
     // Generic treatment for unknown diseases
-    return 'Consult with a plant pathologist or agricultural expert for specific treatment recommendations. General care: remove infected parts, apply appropriate fungicide, improve growing conditions.';
+    return '''Khuyến cáo chung cho bệnh không xác định:
+
+Biện pháp xử lý:
+1. Loại bỏ các phần bị hại
+2. Cải thiện điều kiện sinh trưởng
+3. Áp dụng thuốc trừ nấm phù hợp
+
+Điều kiện tối ưu:
+- Tăng thông thoáng khí
+- Giảm độ ẩm
+- Tránh tưới nước từ trên
+
+Khi nào liên hệ chuyên gia:
+- Nếu tình trạng không cải thiện sau 2 tuần
+- Nếu bệnh lây lan nhanh
+- Nếu cây bắt đầu héo''';
   }
 
   Future<void> saveDetection(DetectionModel detection, {String? farmId}) async {

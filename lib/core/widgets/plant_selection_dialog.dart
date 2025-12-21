@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_card.dart';
+import 'package:ai_detection/core/constants/crop_constants.dart';
 
 class PlantSelectionDialog extends StatefulWidget {
   final String? selectedPlant;
@@ -13,23 +14,6 @@ class PlantSelectionDialog extends StatefulWidget {
 }
 
 class _PlantSelectionDialogState extends State<PlantSelectionDialog> {
-  static const List<String> plants = [
-    'Apple',
-    'Blueberry',
-    'Cherry_(including_sour)',
-    'Corn_(maize)',
-    'Grape',
-    'Orange',
-    'Peach',
-    'Pepper,_bell',
-    'Potato',
-    'Raspberry',
-    'Soybean',
-    'Squash',
-    'Strawberry',
-    'Tomato',
-  ];
-
   String? _selectedPlant;
 
   @override
@@ -39,15 +23,7 @@ class _PlantSelectionDialogState extends State<PlantSelectionDialog> {
   }
 
   String _formatPlantName(String plant) {
-    // Format plant names for better display
-    return plant
-        .replaceAll('_', ' ')
-        .replaceAll('(including sour)', '(including sour)')
-        .split(' ')
-        .map((word) => word.isEmpty
-            ? ''
-            : word[0].toUpperCase() + word.substring(1).toLowerCase())
-        .join(' ');
+    return CropConstants.formatCropName(plant);
   }
 
   @override
@@ -102,9 +78,9 @@ class _PlantSelectionDialogState extends State<PlantSelectionDialog> {
               Flexible(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: plants.length,
+                  itemCount: CropConstants.availableCrops.length,
                   itemBuilder: (context, index) {
-                    final plant = plants[index];
+                    final plant = CropConstants.availableCrops[index];
                     final isSelected = _selectedPlant == plant;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8),

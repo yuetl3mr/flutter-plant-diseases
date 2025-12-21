@@ -25,7 +25,6 @@ class AppTheme {
         secondary: accentBlue,
         error: errorRed,
         surface: surface,
-        background: background,
         brightness: Brightness.light,
       ),
       scaffoldBackgroundColor: background,

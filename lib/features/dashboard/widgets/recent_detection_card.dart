@@ -59,7 +59,7 @@ class RecentDetectionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${(detection.confidence * 100).toStringAsFixed(1)}% confidence',
+                    '${((detection.confidence > 1 ? detection.confidence : detection.confidence * 100).toStringAsFixed(1))}% confidence',
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       color: AppTheme.textSecondary,
@@ -77,6 +77,17 @@ class RecentDetectionCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  const SizedBox(height: 8),
+                  Text(
+                    detection.treatment.split('\n').first,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: AppTheme.textSecondary,
+                      height: 1.4,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -88,7 +99,7 @@ class RecentDetectionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                '${(detection.confidence * 100).toStringAsFixed(0)}%',
+                '${((detection.confidence > 1 ? detection.confidence : detection.confidence * 100).toStringAsFixed(1))}%',
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,

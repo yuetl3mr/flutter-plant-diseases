@@ -12,6 +12,7 @@ import 'package:ai_detection/core/widgets/stats_summary_card.dart';
 import 'package:ai_detection/features/dashboard/widgets/recent_detection_card.dart';
 import 'package:ai_detection/features/dashboard/widgets/plants_chart.dart';
 import 'package:ai_detection/core/widgets/bottom_nav_bar.dart';
+import 'package:ai_detection/features/detection/presentation/detection_list_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -276,7 +277,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetectionListScreen(
+                            detections: recentDetections,
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       'View All',
                       style: GoogleFonts.inter(

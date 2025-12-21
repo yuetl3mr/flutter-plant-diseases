@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/services/farm_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
+import 'package:ai_detection/core/constants/crop_constants.dart';
 
 class AddFarmDialog extends StatefulWidget {
   const AddFarmDialog({super.key});
@@ -16,25 +17,36 @@ class _AddFarmDialogState extends State<AddFarmDialog> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _locationController = TextEditingController();
-  final _cropTypeController = TextEditingController();
+  final Set<String> _selectedCropTypes = {};
   bool _isLoading = false;
 
   @override
   void dispose() {
     _nameController.dispose();
     _locationController.dispose();
-    _cropTypeController.dispose();
     super.dispose();
   }
 
   Future<void> _handleAdd() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_selectedCropTypes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Please select at least one crop type',
+            style: GoogleFonts.inter(),
+          ),
+          backgroundColor: AppTheme.errorRed,
+        ),
+      );
+      return;
+    }
     setState(() => _isLoading = true);
     final farmService = context.read<FarmService>();
     await farmService.addFarm(
       _nameController.text.trim(),
       _locationController.text.trim(),
-      _cropTypeController.text.trim(),
+      _selectedCropTypes.join(', '),
     );
     setState(() => _isLoading = false);
     if (mounted) {
@@ -138,20 +150,51 @@ class _AddFarmDialogState extends State<AddFarmDialog> {
                   },
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  controller: _cropTypeController,
-                  decoration: InputDecoration(
-                    labelText: 'Crop Type',
-                    prefixIcon: const Icon(Icons.eco_outlined),
-                    labelStyle: GoogleFonts.inter(),
+                Text(
+                  'Crop Types',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textPrimary,
                   ),
-                  style: GoogleFonts.inter(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter crop type';
-                    }
-                    return null;
-                  },
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      children: CropConstants.availableCrops.map((crop) {
+                        final isSelected = _selectedCropTypes.contains(crop);
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: FilterChip(
+                            label: Text(
+                              CropConstants.formatCropName(crop),
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                color: isSelected ? Colors.white : AppTheme.textPrimary,
+                              ),
+                            ),
+                            selected: isSelected,
+                            backgroundColor: Colors.transparent,
+                            selectedColor: AppTheme.primaryGreen,
+                            onSelected: (selected) {
+                              setState(() {
+                                if (selected) {
+                                  _selectedCropTypes.add(crop);
+                                } else {
+                                  _selectedCropTypes.remove(crop);
+                                }
+                              });
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 32),
                 Row(

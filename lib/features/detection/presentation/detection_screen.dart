@@ -267,7 +267,7 @@ class _DetectionScreenState extends State<DetectionScreen> {
                               color: AppTheme.errorRed.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.bug_report_rounded,
                               color: AppTheme.errorRed,
                               size: 24,
@@ -306,7 +306,7 @@ class _DetectionScreenState extends State<DetectionScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          '${(_result!.confidence * 100).toStringAsFixed(1)}% Confidence',
+                          '${((_result!.confidence > 1 ? _result!.confidence : _result!.confidence * 100).toStringAsFixed(1))}% Confidence',
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -329,7 +329,7 @@ class _DetectionScreenState extends State<DetectionScreen> {
                                     color: AppTheme.successGreen.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.medical_services_rounded,
                                     color: AppTheme.successGreen,
                                     size: 20,
@@ -351,15 +351,18 @@ class _DetectionScreenState extends State<DetectionScreen> {
                               ],
                             ),
                             const SizedBox(height: 16),
-                            Text(
-                              _result!.treatment,
-                              style: GoogleFonts.inter(
-                                fontSize: 15,
-                                color: AppTheme.textPrimary,
-                                height: 1.6,
+                            SizedBox(
+                              height: 200,
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  _result!.treatment,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 15,
+                                    color: AppTheme.textPrimary,
+                                    height: 1.6,
+                                  ),
+                                ),
                               ),
-                              maxLines: 10,
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
