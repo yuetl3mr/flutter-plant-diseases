@@ -16,7 +16,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
     });
 
     tearDown(() async {
@@ -62,7 +62,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
     });
@@ -105,7 +105,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
     });
@@ -173,7 +173,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
       await farmService.addPlantToFarm(
@@ -229,7 +229,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
     });
@@ -270,7 +270,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
       await farmService.addPlantToFarm(
@@ -341,7 +341,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      farmService = FarmService();
+      farmService = FarmService.instance;
       await farmService.addFarm('Farm A', 'Location A', 'Rice');
       farmId = farmService.farms.first.id;
     });

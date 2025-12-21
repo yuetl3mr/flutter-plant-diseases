@@ -41,6 +41,14 @@ class _DetectionScreenState extends State<DetectionScreen> {
     }
   }
 
+  String _formatConfidence(double confidence) {
+    // Convert to percentage if needed
+    double percentage = confidence > 1 ? confidence : confidence * 100;
+    // Floor to 2 decimal places (don't round up)
+    double floored = ((percentage * 100).truncate() / 100.0);
+    return floored.toStringAsFixed(2);
+  }
+
   Future<void> _pickImage(ImageSource source) async {
     try {
       final image = await _picker.pickImage(source: source);
@@ -251,124 +259,133 @@ class _DetectionScreenState extends State<DetectionScreen> {
             ),
             if (_result != null) ...[
               const SizedBox(height: 20),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                child: ModernCard(
-                  padding: const EdgeInsets.all(20),
-                  color: const Color(0xFFFFEBEE),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+              Builder(
+                builder: (context) {
+                  final isHealthy = _result!.diseaseName.toLowerCase().contains('healthy');
+                  final statusColor = isHealthy ? AppTheme.successGreen : AppTheme.errorRed;
+                  final statusIcon = isHealthy ? Icons.check_circle_rounded : Icons.bug_report_rounded;
+                  final cardColor = isHealthy ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE);
+                  
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    child: ModernCard(
+                      padding: const EdgeInsets.all(20),
+                      color: cardColor,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppTheme.errorRed.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.bug_report_rounded,
-                              color: AppTheme.errorRed,
-                              size: 24,
-                            ),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: statusColor.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Icon(
+                                  statusIcon,
+                                  color: statusColor,
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'Detection Result',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: statusColor,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
+                          const SizedBox(height: 20),
+                          Text(
+                            _result!.diseaseName,
+                            style: GoogleFonts.inter(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: statusColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Text(
-                              'Detection Result',
+                              '${_formatConfidence(_result!.confidence)}% Confidence',
                               style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: AppTheme.errorRed,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: statusColor,
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        _result!.diseaseName,
-                        style: GoogleFonts.inter(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 24),
+              ModernCard(
+                padding: const EdgeInsets.all(16),
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppTheme.successGreen.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Icons.medical_services_rounded,
+                            color: AppTheme.successGreen,
+                            size: 20,
+                          ),
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppTheme.errorRed.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Treatment Recommendation',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.successGreen,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: 200,
+                      child: SingleChildScrollView(
                         child: Text(
-                          '${((_result!.confidence > 1 ? _result!.confidence : _result!.confidence * 100).toStringAsFixed(1))}% Confidence',
+                          _result!.treatment,
                           style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.errorRed,
+                            fontSize: 15,
+                            color: AppTheme.textPrimary,
+                            height: 1.6,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      ModernCard(
-                        padding: const EdgeInsets.all(16),
-                        color: Colors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.successGreen.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Icon(
-                                    Icons.medical_services_rounded,
-                                    color: AppTheme.successGreen,
-                                    size: 20,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    'Treatment Recommendation',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppTheme.successGreen,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            SizedBox(
-                              height: 200,
-                              child: SingleChildScrollView(
-                                child: Text(
-                                  _result!.treatment,
-                                  style: GoogleFonts.inter(
-                                    fontSize: 15,
-                                    color: AppTheme.textPrimary,
-                                    height: 1.6,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),

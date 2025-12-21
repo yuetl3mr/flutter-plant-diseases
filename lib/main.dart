@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
-        ChangeNotifierProvider(create: (_) => DetectionService()),
-        ChangeNotifierProvider(create: (_) => FarmService()),
+        ChangeNotifierProvider(create: (_) => DetectionService.instance),
+        ChangeNotifierProvider(create: (_) => FarmService.instance),
       ],
       child: MaterialApp(
         title: 'LeafCare',

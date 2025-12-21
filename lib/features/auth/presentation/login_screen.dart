@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/routes/app_router.dart';
 import 'package:ai_detection/core/services/auth_service.dart';
+import 'package:ai_detection/core/services/detection_service.dart';
+import 'package:ai_detection/core/services/farm_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
 
@@ -31,10 +33,20 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     final authService = context.read<AuthService>();
+    final detectionService = context.read<DetectionService>();
+    final farmService = context.read<FarmService>();
+    
     final success = await authService.login(
       _emailController.text.trim(),
       _passwordController.text,
     );
+    
+    if (success && authService.currentUser != null) {
+      // Set current user for all services
+      detectionService.setCurrentUserId(authService.currentUser!.id);
+      farmService.setCurrentUserId(authService.currentUser!.id);
+    }
+    
     setState(() => _isLoading = false);
     if (success && mounted) {
       Navigator.pushReplacementNamed(context, AppRouter.dashboard);

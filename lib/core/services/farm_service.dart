@@ -4,19 +4,30 @@ import 'package:ai_detection/core/models/farm_model.dart';
 import 'package:ai_detection/core/services/storage_service.dart';
 
 class FarmService extends ChangeNotifier {
+  static late final FarmService _instance = FarmService._internal();
+  static FarmService get instance => _instance;
+
   final List<FarmModel> _farms = [];
+  String? _currentUserId;
 
   List<FarmModel> get farms => List.unmodifiable(_farms);
 
-  FarmService() {
+  FarmService._internal();
+
+  void setCurrentUserId(String userId) {
+    _currentUserId = userId;
+    _farms.clear();
     _loadFarms();
-    if (_farms.isEmpty) {
-      _initializeMockData();
-    }
+  }
+
+  void clearData() {
+    _currentUserId = null;
+    _farms.clear();
+    notifyListeners();
   }
 
   Future<void> _loadFarms() async {
-    final farmsJson = StorageService.instance.getString('farms');
+    final farmsJson = StorageService.instance.getString('farms', userId: _currentUserId);
     if (farmsJson != null) {
       final List<dynamic> decoded = jsonDecode(farmsJson);
       _farms.clear();
@@ -29,41 +40,10 @@ class FarmService extends ChangeNotifier {
 
   Future<void> _saveFarms() async {
     final encoded = jsonEncode(_farms.map((f) => f.toJson()).toList());
-    await StorageService.instance.saveString('farms', encoded);
+    await StorageService.instance.saveString('farms', encoded, userId: _currentUserId);
     notifyListeners();
   }
 
-  void _initializeMockData() {
-    _farms.addAll([
-      FarmModel(
-        id: '1',
-        name: 'Rice Field A',
-        location: 'Northern Region',
-        cropType: 'Rice',
-        plants: List.generate(120, (i) => PlantModel(
-          id: 'p1_$i',
-          name: 'Rice Plant ${i + 1}',
-          imagePath: '',
-          status: i < 8 ? PlantStatus.infected : PlantStatus.healthy,
-          createdAt: DateTime.now().subtract(Duration(days: i % 30)),
-        )),
-      ),
-      FarmModel(
-        id: '2',
-        name: 'Strawberry Field',
-        location: 'Western Region',
-        cropType: 'Strawberry',
-        plants: List.generate(75, (i) => PlantModel(
-          id: 'p2_$i',
-          name: 'Strawberry Plant ${i + 1}',
-          imagePath: '',
-          status: i < 3 ? PlantStatus.infected : PlantStatus.healthy,
-          createdAt: DateTime.now().subtract(Duration(days: i % 20)),
-        )),
-      ),
-    ]);
-    _saveFarms();
-  }
 
   Future<void> addFarm(String name, String location, String cropType) async {
     final farm = FarmModel(

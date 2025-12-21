@@ -9,20 +9,28 @@ class StorageService {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  Future<void> saveString(String key, String value) async {
-    await _prefs?.setString(key, value);
+  // Generate user-scoped key
+  String _getUserKey(String key, String? userId) {
+    if (userId == null || userId.isEmpty) {
+      return key;
+    }
+    return '${userId}_$key';
   }
 
-  String? getString(String key) => _prefs?.getString(key);
-
-  Future<void> saveStringList(String key, List<String> value) async {
-    await _prefs?.setStringList(key, value);
+  Future<void> saveString(String key, String value, {String? userId}) async {
+    await _prefs?.setString(_getUserKey(key, userId), value);
   }
 
-  List<String>? getStringList(String key) => _prefs?.getStringList(key);
+  String? getString(String key, {String? userId}) => _prefs?.getString(_getUserKey(key, userId));
 
-  Future<void> remove(String key) async {
-    await _prefs?.remove(key);
+  Future<void> saveStringList(String key, List<String> value, {String? userId}) async {
+    await _prefs?.setStringList(_getUserKey(key, userId), value);
+  }
+
+  List<String>? getStringList(String key, {String? userId}) => _prefs?.getStringList(_getUserKey(key, userId));
+
+  Future<void> remove(String key, {String? userId}) async {
+    await _prefs?.remove(_getUserKey(key, userId));
   }
 
   Future<void> clear() async {

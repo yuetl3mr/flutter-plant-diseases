@@ -7,6 +7,7 @@ import 'package:ai_detection/core/models/farm_model.dart';
 import 'package:ai_detection/core/services/farm_service.dart';
 import 'package:ai_detection/core/services/detection_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
+import 'package:ai_detection/core/routes/app_router.dart';
 import 'package:ai_detection/features/farm/widgets/add_plant_dialog.dart';
 import 'package:ai_detection/core/widgets/modern_card.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
@@ -208,6 +209,16 @@ class FarmDetailScreen extends StatelessWidget {
                         tag: 'plant_${plant.id}',
                         child: ModernCard(
                           padding: EdgeInsets.zero,
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRouter.plantDetail,
+                              arguments: {
+                                'farmId': farmId,
+                                'plantId': plant.id,
+                              },
+                            );
+                          },
                           onLongPress: () {
                             showDialog(
                               context: context,
@@ -451,8 +462,10 @@ class _PlantOptionsDialog extends StatelessWidget {
         image.path,
         plant: selectedPlant,
       );
-      final newStatus = PlantStatus.infected;
-      await detectionService.saveDetection(detection);
+      // Update plant status based on detection result
+      final isHealthy = detection.diseaseName.toLowerCase().contains('healthy');
+      final newStatus = isHealthy ? PlantStatus.healthy : PlantStatus.infected;
+      await detectionService.saveDetection(detection, farmId: farmId, plantId: plant.id);
       
       await farmService.updatePlantStatus(farmId, plant.id, newStatus);
       

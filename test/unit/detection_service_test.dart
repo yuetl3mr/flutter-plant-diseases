@@ -16,7 +16,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      detectionService = DetectionService();
+      detectionService = DetectionService.instance;
     });
 
     tearDown(() async {
@@ -90,7 +90,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      detectionService = DetectionService();
+      detectionService = DetectionService.instance;
     });
 
     tearDown(() async {
@@ -142,7 +142,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      detectionService = DetectionService();
+      detectionService = DetectionService.instance;
     });
 
     tearDown(() async {
@@ -202,7 +202,7 @@ void main() {
     setUp(() async {
       await StorageService.instance.clear();
       await StorageService.instance.init();
-      detectionService = DetectionService();
+      detectionService = DetectionService.instance;
     });
 
     tearDown(() async {

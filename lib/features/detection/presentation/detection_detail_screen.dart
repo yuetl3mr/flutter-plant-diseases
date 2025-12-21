@@ -14,6 +14,14 @@ class DetectionDetailScreen extends StatelessWidget {
     required this.detection,
   });
 
+  String _formatConfidence(double confidence) {
+    // Convert to percentage if needed
+    double percentage = confidence > 1 ? confidence : confidence * 100;
+    // Floor to 2 decimal places (don't round up)
+    double floored = ((percentage * 100).truncate() / 100.0);
+    return floored.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,71 +77,80 @@ class DetectionDetailScreen extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 20),
-            ModernCard(
-              padding: const EdgeInsets.all(20),
-              color: const Color(0xFFFFEBEE),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            Builder(
+              builder: (context) {
+                final isHealthy = detection.diseaseName.toLowerCase().contains('healthy');
+                final statusColor = isHealthy ? AppTheme.successGreen : AppTheme.errorRed;
+                final statusIcon = isHealthy ? Icons.check_circle_rounded : Icons.bug_report_rounded;
+                final cardColor = isHealthy ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE);
+                
+                return ModernCard(
+                  padding: const EdgeInsets.all(20),
+                  color: cardColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppTheme.errorRed.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          Icons.bug_report_rounded,
-                          color: AppTheme.errorRed,
-                          size: 24,
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: statusColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              statusIcon,
+                              color: statusColor,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              isHealthy ? 'Plant Status' : 'Disease Detected',
+                              style: GoogleFonts.inter(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: statusColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        detection.diseaseName,
+                        style: GoogleFonts.inter(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.textPrimary,
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Disease Detected',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: AppTheme.errorRed,
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: statusColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '${_formatConfidence(detection.confidence)}% Confidence',
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: statusColor,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    detection.diseaseName,
-                    style: GoogleFonts.inter(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                      color: AppTheme.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppTheme.errorRed.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '${((detection.confidence > 1 ? detection.confidence : detection.confidence * 100).toStringAsFixed(1))}% Confidence',
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.errorRed,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                );
+              },
             ),
             const SizedBox(height: 20),
             ModernCard(

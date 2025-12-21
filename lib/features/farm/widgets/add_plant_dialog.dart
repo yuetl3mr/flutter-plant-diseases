@@ -117,8 +117,10 @@ class _AddPlantDialogState extends State<AddPlantDialog> {
           _pickedImage!.path,
           plant: selectedPlant,
         );
-        finalStatus = PlantStatus.infected;
-        await detectionService.saveDetection(detection);
+        // Update plant status based on detection result
+        final isHealthy = detection.diseaseName.toLowerCase().contains('healthy');
+        finalStatus = isHealthy ? PlantStatus.healthy : PlantStatus.infected;
+        await detectionService.saveDetection(detection, farmId: widget.farmId);
       } catch (e) {
         setState(() => _isLoading = false);
         if (mounted) {
@@ -146,6 +148,28 @@ class _AddPlantDialogState extends State<AddPlantDialog> {
       _pickedImage!.path,
       finalStatus,
     );
+    
+    // Update detection with plantId if detection was used
+    if (_useDetection) {
+      final farm = farmService.getFarmById(widget.farmId);
+      if (farm != null) {
+        // Find the newly added plant by imagePath
+        final newPlant = farm.plants.firstWhere(
+          (p) => p.imagePath == _pickedImage!.path,
+          orElse: () => throw Exception('Plant not found'),
+        );
+        // Find detection by imagePath and update with plantId
+        final detection = detectionService.getDetectionByImagePath(_pickedImage!.path);
+        if (detection != null) {
+          await detectionService.saveDetection(
+            detection,
+            farmId: widget.farmId,
+            plantId: newPlant.id,
+          );
+        }
+      }
+    }
+    
     setState(() => _isLoading = false);
     if (mounted) {
       Navigator.pop(context);

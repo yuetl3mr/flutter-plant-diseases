@@ -26,7 +26,7 @@ void main() {
 
     testWidgets('Thêm nông trại thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       final initialCount = farmService.farms.length;
 
       // Act: Thêm nông trại
@@ -42,7 +42,7 @@ void main() {
 
     testWidgets('Lấy nông trại theo ID thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
 
@@ -57,7 +57,7 @@ void main() {
 
     testWidgets('Thêm cây vào nông trại thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
 
@@ -78,7 +78,7 @@ void main() {
 
     testWidgets('Xóa cây khỏi nông trại thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
       await farmService.addPlantToFarm(
@@ -99,7 +99,7 @@ void main() {
 
     testWidgets('Cập nhật trạng thái cây thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
       await farmService.addPlantToFarm(
@@ -121,7 +121,7 @@ void main() {
 
     testWidgets('Xóa nông trại thành công', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
       final initialCount = farmService.farms.length;
@@ -136,7 +136,7 @@ void main() {
 
     testWidgets('Tính toán thống kê nông trại', (WidgetTester tester) async {
       // Arrange
-      final farmService = FarmService();
+      final farmService = FarmService.instance;
       await farmService.addFarm('Test Farm', 'Test Location', 'Rice');
       final farmId = farmService.farms.firstWhere((f) => f.name == 'Test Farm').id;
       

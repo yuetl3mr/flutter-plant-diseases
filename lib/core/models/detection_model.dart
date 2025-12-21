@@ -6,6 +6,7 @@ class DetectionModel {
   final DateTime date;
   final String? imagePath;
   final String? farmId;
+  final String? plantId;
 
   DetectionModel({
     required this.id,
@@ -15,6 +16,7 @@ class DetectionModel {
     required this.date,
     this.imagePath,
     this.farmId,
+    this.plantId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +27,7 @@ class DetectionModel {
         'date': date.toIso8601String(),
         'imagePath': imagePath,
         'farmId': farmId,
+        'plantId': plantId,
       };
 
   factory DetectionModel.fromJson(Map<String, dynamic> json) => DetectionModel(
@@ -35,6 +38,7 @@ class DetectionModel {
         date: DateTime.parse(json['date'] as String),
         imagePath: json['imagePath'] as String?,
         farmId: json['farmId'] as String?,
+        plantId: json['plantId'] as String?,
       );
 }
 

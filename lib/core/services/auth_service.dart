@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:ai_detection/core/models/user_model.dart';
 import 'package:ai_detection/core/services/storage_service.dart';
+import 'package:ai_detection/core/services/detection_service.dart';
+import 'package:ai_detection/core/services/farm_service.dart';
 
 class AuthService extends ChangeNotifier {
   UserModel? _currentUser;
@@ -12,6 +14,13 @@ class AuthService extends ChangeNotifier {
 
   AuthService() {
     _loadUsers();
+  }
+
+  void _setUserContextForServices() {
+    if (_currentUser != null) {
+      DetectionService.instance.setCurrentUserId(_currentUser!.id);
+      FarmService.instance.setCurrentUserId(_currentUser!.id);
+    }
   }
 
   Future<void> _loadUsers() async {
@@ -26,6 +35,7 @@ class AuthService extends ChangeNotifier {
           (u) => u.id == currentUserId,
           orElse: () => _users.first,
         );
+        _setUserContextForServices();
       }
       notifyListeners();
     }
@@ -59,6 +69,7 @@ class AuthService extends ChangeNotifier {
       return false;
     }
     _currentUser = user;
+    _setUserContextForServices();
     await StorageService.instance.saveString('current_user_id', user.id);
     notifyListeners();
     return true;
@@ -66,6 +77,8 @@ class AuthService extends ChangeNotifier {
 
   Future<void> logout() async {
     _currentUser = null;
+    DetectionService.instance.clearData();
+    FarmService.instance.clearData();
     await StorageService.instance.remove('current_user_id');
     notifyListeners();
   }

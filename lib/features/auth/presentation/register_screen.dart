@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ai_detection/core/routes/app_router.dart';
 import 'package:ai_detection/core/services/auth_service.dart';
+import 'package:ai_detection/core/services/detection_service.dart';
+import 'package:ai_detection/core/services/farm_service.dart';
 import 'package:ai_detection/core/theme/app_theme.dart';
 import 'package:ai_detection/core/widgets/modern_button.dart';
 
@@ -43,10 +45,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
     setState(() => _isLoading = false);
     if (success && mounted) {
+      final authService = context.read<AuthService>();
+      final detectionService = context.read<DetectionService>();
+      final farmService = context.read<FarmService>();
+      
       await authService.login(
         _emailController.text.trim(),
         _passwordController.text,
       );
+      
+      if (authService.currentUser != null) {
+        // Set current user for all services
+        detectionService.setCurrentUserId(authService.currentUser!.id);
+        farmService.setCurrentUserId(authService.currentUser!.id);
+      }
+      
       if (mounted) {
         Navigator.pushReplacementNamed(context, AppRouter.dashboard);
       }

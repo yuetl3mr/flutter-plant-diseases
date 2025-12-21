@@ -5,6 +5,7 @@ import 'package:ai_detection/features/dashboard/presentation/dashboard_screen.da
 import 'package:ai_detection/features/detection/presentation/detection_screen.dart';
 import 'package:ai_detection/features/farm/presentation/farm_list_screen.dart';
 import 'package:ai_detection/features/farm/presentation/farm_detail_screen.dart';
+import 'package:ai_detection/features/farm/presentation/plant_detail_screen.dart';
 import 'package:ai_detection/features/profile/presentation/profile_screen.dart';
 
 class AppRouter {
@@ -14,6 +15,7 @@ class AppRouter {
   static const String detection = '/detection';
   static const String farmList = '/farm-list';
   static const String farmDetail = '/farm-detail';
+  static const String plantDetail = '/plant-detail';
   static const String profile = '/profile';
 
   static Map<String, WidgetBuilder> get routes => {
@@ -30,6 +32,15 @@ class AppRouter {
       final farmId = settings.arguments as String;
       return MaterialPageRoute(
         builder: (context) => FarmDetailScreen(farmId: farmId),
+      );
+    }
+    if (settings.name == plantDetail) {
+      final args = settings.arguments as Map<String, String>;
+      return MaterialPageRoute(
+        builder: (context) => PlantDetailScreen(
+          farmId: args['farmId']!,
+          plantId: args['plantId']!,
+        ),
       );
     }
     return null;

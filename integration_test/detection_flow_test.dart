@@ -26,7 +26,7 @@ void main() {
 
     testWidgets('Phát hiện bệnh thành công - Lưu kết quả', (WidgetTester tester) async {
       // Arrange
-      final detectionService = DetectionService();
+      final detectionService = DetectionService.instance;
       final initialCount = detectionService.detections.length;
 
       // Act: Phát hiện bệnh
@@ -42,7 +42,7 @@ void main() {
 
     testWidgets('Phát hiện bệnh - Kiểm tra thống kê tuần', (WidgetTester tester) async {
       // Arrange
-      final detectionService = DetectionService();
+      final detectionService = DetectionService.instance;
       
       // Act: Tạo một số phát hiện
       for (int i = 0; i < 3; i++) {
@@ -60,7 +60,7 @@ void main() {
 
     testWidgets('Phát hiện bệnh - Lưu với farmId', (WidgetTester tester) async {
       // Arrange
-      final detectionService = DetectionService();
+      final detectionService = DetectionService.instance;
       const farmId = 'farm123';
 
       // Act: Phát hiện và lưu với farmId
@@ -73,7 +73,7 @@ void main() {
 
     testWidgets('Phát hiện bệnh - Danh sách phát hiện gần đây', (WidgetTester tester) async {
       // Arrange
-      final detectionService = DetectionService();
+      final detectionService = DetectionService.instance;
 
       // Act: Tạo nhiều phát hiện
       final detection1 = await detectionService.detectDisease('/path/to/test/image1.jpg');

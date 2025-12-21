@@ -8,35 +8,64 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class DetectionService extends ChangeNotifier {
+  static late final DetectionService _instance = DetectionService._internal();
+  static DetectionService get instance => _instance;
   final List<DetectionModel> _detections = [];
+  String? _currentUserId;
 
   List<DetectionModel> get detections => List.unmodifiable(_detections);
   List<DetectionModel> get recentDetections => List.unmodifiable(
         _detections.toList()..sort((a, b) => b.date.compareTo(a.date)),
       );
 
-  int get totalInfected => _detections.length;
-  int get totalHealthy => 0;
+  // Count all detections including those from farms (farmId/plantId may be set or null)
+  int get totalInfected => _detections.where((d) => !d.diseaseName.toLowerCase().contains('healthy')).length;
+  int get totalHealthy => _detections.where((d) => d.diseaseName.toLowerCase().contains('healthy')).length;
 
-  DetectionService() {
+  DetectionService._internal();
+
+  void setCurrentUserId(String userId) {
+    _currentUserId = userId;
     _loadDetections();
   }
 
+  void clearData() {
+    _currentUserId = null;
+    _detections.clear();
+    notifyListeners();
+  }
+
   Future<void> _loadDetections() async {
-    final detectionsJson = StorageService.instance.getString('detections');
+    // Always clear detections first to prevent showing old data for new users
+    _detections.clear();
+    final detectionsJson = StorageService.instance.getString('detections', userId: _currentUserId);
     if (detectionsJson != null) {
       final List<dynamic> decoded = jsonDecode(detectionsJson);
-      _detections.clear();
+      final loadedDetections = decoded.map((d) => DetectionModel.fromJson(d as Map<String, dynamic>)).toList();
+      
+      // Remove duplicates by keeping only the first occurrence of each ID
+      final seenIds = <String>{};
       _detections.addAll(
-        decoded.map((d) => DetectionModel.fromJson(d as Map<String, dynamic>)),
+        loadedDetections.where((d) {
+          if (seenIds.contains(d.id)) {
+            return false; // Skip duplicate
+          }
+          seenIds.add(d.id);
+          return true;
+        }),
       );
-      notifyListeners();
+      
+      // If duplicates were found, save the cleaned list
+      if (loadedDetections.length != _detections.length) {
+        await _saveDetections();
+      }
     }
+    notifyListeners();
   }
 
   Future<void> _saveDetections() async {
     final encoded = jsonEncode(_detections.map((d) => d.toJson()).toList());
-    await StorageService.instance.saveString('detections', encoded);
+    await StorageService.instance.saveString('detections', encoded, userId: _currentUserId);
     notifyListeners();
   }
 
@@ -89,9 +118,35 @@ class DetectionService extends ChangeNotifier {
         // Extract data from API response
         final plantName = responseData['plant'] as String? ?? 'Unknown';
         final disease = responseData['disease'] as String? ?? 'Unknown';
-        final confidence = (responseData['confidence'] as num?)?.toDouble() ?? 
-                          (responseData['normalized_probability'] as num?)?.toDouble() ?? 0.0;
         
+        // Parse confidence with better error handling
+        double confidence = 0.0;
+        try {
+          final confidenceValue = responseData['normalized_probability'];
+          if (confidenceValue != null) {
+            confidence = double.parse(confidenceValue.toString());
+            // Ensure confidence is between 0 and 1, or already a percentage
+            if (confidence > 1.0) {
+              // Already a percentage, keep as is
+            } else if (confidence < 0.0) {
+              confidence = 0.0;
+            }
+          } else {
+            // If normalized_probability is missing, try other possible fields
+            final probValue = responseData['probability'] ?? responseData['confidence'] ?? responseData['prob'];
+            if (probValue != null) {
+              confidence = double.parse(probValue.toString());
+              if (confidence > 1.0) {
+                confidence = confidence / 100.0;
+              }
+            }
+          }
+        } catch (e) {
+          // If parsing fails, default to 0.0
+          confidence = 0.0;
+        }
+        
+        print('Disease: $disease, Confidence: $confidence');
         // Generate treatment recommendation based on disease
         final treatment = await _getTreatmentRecommendation(disease, plantName);
         
@@ -322,7 +377,7 @@ Khi nào liên hệ chuyên gia:
 - Nếu cây bắt đầu héo''';
   }
 
-  Future<void> saveDetection(DetectionModel detection, {String? farmId}) async {
+  Future<void> saveDetection(DetectionModel detection, {String? farmId, String? plantId}) async {
     final updated = DetectionModel(
       id: detection.id,
       diseaseName: detection.diseaseName,
@@ -330,26 +385,68 @@ Khi nào liên hệ chuyên gia:
       treatment: detection.treatment,
       date: detection.date,
       imagePath: detection.imagePath,
-      farmId: farmId,
+      farmId: farmId ?? detection.farmId,
+      plantId: plantId ?? detection.plantId,
     );
-    _detections.add(updated);
+    
+    // Check if detection already exists (by ID) and update instead of adding duplicate
+    final existingIndex = _detections.indexWhere((d) => d.id == detection.id);
+    if (existingIndex >= 0) {
+      _detections[existingIndex] = updated;
+    } else {
+      _detections.add(updated);
+    }
+    
     await _saveDetections();
   }
 
+  Future<void> deleteDetection(String detectionId) async {
+    // Remove only the first occurrence to prevent deleting duplicates
+    final index = _detections.indexWhere((d) => d.id == detectionId);
+    if (index >= 0) {
+      _detections.removeAt(index);
+      await _saveDetections();
+    }
+  }
+
+  DetectionModel? getDetectionByPlantId(String plantId) {
+    try {
+      return _detections.firstWhere((d) => d.plantId == plantId);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  DetectionModel? getDetectionByImagePath(String imagePath) {
+    try {
+      return _detections.where((d) => d.imagePath == imagePath)
+          .toList()
+          .isNotEmpty
+          ? _detections.where((d) => d.imagePath == imagePath).first
+          : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Get weekly stats including all detections (from dashboard and farms)
   List<Map<String, dynamic>> getWeeklyStats() {
     final now = DateTime.now();
     final stats = <Map<String, dynamic>>[];
     for (int i = 6; i >= 0; i--) {
       final date = now.subtract(Duration(days: i));
+      // Count all detections for this day (including those from farms)
       final dayDetections = _detections.where((d) {
         return d.date.year == date.year &&
             d.date.month == date.month &&
             d.date.day == date.day;
-      }).length;
+      });
+      final infected = dayDetections.where((d) => !d.diseaseName.toLowerCase().contains('healthy')).length;
+      final healthy = dayDetections.where((d) => d.diseaseName.toLowerCase().contains('healthy')).length;
       stats.add({
         'date': date,
-        'infected': dayDetections,
-        'healthy': 0,
+        'infected': infected,
+        'healthy': healthy,
       });
     }
     return stats;
