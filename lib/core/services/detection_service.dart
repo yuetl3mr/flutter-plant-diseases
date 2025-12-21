@@ -77,8 +77,13 @@ class DetectionService extends ChangeNotifier {
         throw Exception('Không tìm thấy file ảnh');
       }
 
+      // Create URI with optional plant query parameter
+      Uri uri = Uri.parse('https://detecting-plant-diseases-1.onrender.com/predict');
+      if (plant != null && plant.isNotEmpty) {
+        uri = uri.replace(queryParameters: {'plant': plant});
+      }
+
       // Create multipart request
-      final uri = Uri.parse('https://detecting-plant-diseases-1.onrender.com/predict');
       var request = http.MultipartRequest('POST', uri);
       
       // Add image file
@@ -92,18 +97,29 @@ class DetectionService extends ChangeNotifier {
         ),
       );
 
-      // Add optional plant parameter
-      if (plant != null && plant.isNotEmpty) {
-        request.fields['plant'] = plant;
-      }
-
       // Send request with timeout
-      final streamedResponse = await request.send().timeout(
-        const Duration(seconds: 30),
-        onTimeout: () {
-          throw Exception('Hết thời gian chờ. Vui lòng kiểm tra kết nối internet và thử lại.');
-        },
-      );
+      http.StreamedResponse streamedResponse;
+      try {
+        streamedResponse = await request.send().timeout(
+          const Duration(seconds: 30),
+          onTimeout: () {
+            throw Exception('Hết thời gian chờ. Vui lòng kiểm tra kết nối internet và thử lại.');
+          },
+        );
+      } on SocketException catch (e) {
+        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra kết nối internet và thử lại.\nChi tiết: ${e.message}');
+      } on HttpException catch (e) {
+        throw Exception('Lỗi kết nối HTTP. Vui lòng thử lại sau.\nChi tiết: ${e.message}');
+      } on FormatException catch (e) {
+        throw Exception('URL không hợp lệ. Vui lòng kiểm tra lại.\nChi tiết: ${e.message}');
+      } catch (e) {
+        if (e.toString().contains('address associated with hostname') || 
+            e.toString().contains('Failed host lookup')) {
+          throw Exception('Không thể tìm thấy địa chỉ server. Vui lòng kiểm tra kết nối internet và thử lại.');
+        }
+        rethrow;
+      }
+      
       final response = await http.Response.fromStream(streamedResponse);
 
       // Handle response
